@@ -1,0 +1,351 @@
+/* Logo Section */
+.logo-section {
+  text-align: center;
+  margin-bottom: 2rem;
+  padding: 2rem 0;
+}
+
+.logo {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.airplane-icon {
+  width: 60px;
+  height: 60px;
+  color: #3b82f6;
+  margin-bottom: 0.5rem;
+}
+
+.airplane-icon svg {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+.logo-text {
+  text-align: center;
+}
+
+.logo-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0;
+  letter-spacing: -0.025em;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.logo-tagline {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #6b7280;
+  margin: 0.25rem 0 0 0;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* Search Form Container */
+.search-form-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2.5rem;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Trip Type Selector */
+.trip-type-selector {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+  background: #f3f4f6;
+  padding: 0.25rem;
+  border-radius: 8px;
+}
+
+.trip-type-btn {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  border: none;
+  background: transparent;
+  color: #6b7280;
+  font-weight: 500;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.trip-type-btn.active {
+  background: white;
+  color: #3b82f6;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.trip-type-btn:hover:not(.active) {
+  background: rgba(255, 255, 255, 0.5);
+  color: #374151;
+}
+
+/* Form Styles */
+.search-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-row {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+/* Ensure From and To are always on the same line */
+.form-row:first-of-type {
+  display: flex !important;
+  flex-wrap: nowrap !important;
+}
+
+.form-row:first-of-type .form-group {
+  flex: 1;
+  min-width: 0;
+}
+
+.form-group {
+  flex: 1;
+  min-width: 250px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #374151;
+  font-size: 0.875rem;
+}
+
+/* Input Container for Airport Dropdown */
+.input-container {
+  position: relative;
+}
+
+.input-container input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+  background: white;
+}
+
+.input-container input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.input-container input::placeholder {
+  color: #9ca3af;
+}
+
+/* Airport Dropdown Styles */
+.airport-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  border: 2px solid #e5e7eb;
+  border-top: none;
+  border-radius: 0 0 8px 8px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  z-index: 1000;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.dropdown-header {
+  padding: 0.75rem 1rem;
+  background: #f9fafb;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.dropdown-header h4 {
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #374151;
+}
+
+.airport-option {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.airport-option:last-child {
+  border-bottom: none;
+}
+
+.airport-option:hover {
+  background-color: #f3f4f6;
+}
+
+.airport-option:active {
+  background-color: #e5e7eb;
+}
+
+.airport-code {
+  font-weight: 600;
+  font-size: 1rem;
+  color: #1f2937;
+  min-width: 60px;
+  margin-right: 1rem;
+}
+
+.airport-details {
+  flex: 1;
+  min-width: 0;
+}
+
+.airport-city {
+  font-weight: 500;
+  color: #374151;
+  font-size: 0.875rem;
+  margin-bottom: 0.25rem;
+}
+
+.airport-name {
+  color: #6b7280;
+  font-size: 0.75rem;
+  line-height: 1.2;
+  margin-bottom: 0.25rem;
+}
+
+.airport-country {
+  color: #3b82f6;
+  font-size: 0.7rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.no-results {
+  padding: 1rem;
+  text-align: center;
+  color: #6b7280;
+  font-style: italic;
+}
+
+/* Regular Form Inputs */
+.form-group input[type="date"],
+.form-group select {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+  background: white;
+}
+
+.form-group input[type="date"]:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Search Button */
+.search-btn {
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  color: white;
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  font-size: 1.125rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.search-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 8px -1px rgba(0, 0, 0, 0.15);
+}
+
+.search-btn:active {
+  transform: translateY(0);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .search-form-container {
+    padding: 1.5rem;
+    margin: 1rem;
+  }
+
+  .logo-title {
+    font-size: 2rem;
+  }
+
+  .form-row {
+    flex-direction: column;
+  }
+
+  /* Keep From and To on same line even on mobile */
+  .form-row:first-of-type {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+  }
+
+  .form-row:first-of-type .form-group {
+    flex: 1;
+    min-width: 0;
+  }
+
+  /* Other form rows can stack on mobile */
+  .form-row:not(:first-of-type) {
+    flex-direction: column;
+  }
+
+  .form-group {
+    min-width: 0;
+  }
+
+  .airport-dropdown {
+    max-height: 250px;
+  }
+
+  .airport-option {
+    padding: 0.5rem 0.75rem;
+  }
+
+  .airport-code {
+    min-width: 50px;
+    margin-right: 0.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .search-form-container {
+    padding: 1rem;
+    margin: 0.5rem;
+  }
+
+  .logo-title {
+    font-size: 1.75rem;
+  }
+
+  .airport-dropdown {
+    max-height: 200px;
+  }
+} 
