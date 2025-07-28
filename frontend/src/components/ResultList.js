@@ -116,6 +116,7 @@ const ResultList = ({ results, type, loading, from, to }) => {
       <div className="loading">
         <div className="spinner"></div>
         <p>Searching for {type}...</p>
+        <p className="loading-subtitle">This may take a few moments for popular routes</p>
       </div>
     );
   }
@@ -752,7 +753,6 @@ const FlightDetailsModal = ({ flight, onClose, searchParams, formatPrice }) => {
     // For now, we'll use basic details since we need to add proposalIndex and itemIndex to flight objects
     // This is a progressive enhancement - it will work with basic details if enhanced details fail
     if (!flight.proposalIndex || !flight.itemIndex) {
-      console.log('Using basic flight details (progressive enhancement)');
       return;
     }
     

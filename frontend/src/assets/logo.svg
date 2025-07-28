@@ -1,0 +1,50 @@
+<svg width="200" height="80" viewBox="0 0 200 80" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="200" height="80" fill="#fafafa" rx="4"/>
+  
+  <!-- Airplane with flight path -->
+  <g transform="translate(20, 25)">
+    <!-- Flight path (swoosh) -->
+    <path d="M5 35 Q25 25 45 30 Q55 32 65 28" 
+          stroke="#1f5f3f" 
+          stroke-width="2" 
+          fill="none" 
+          opacity="0.8"/>
+    
+    <!-- Airplane -->
+    <g transform="translate(60, 28)">
+      <!-- Airplane body -->
+      <path d="M0 0 L8 2 L8 4 L0 6 L2 3 Z" 
+            fill="#1f5f3f"/>
+      
+      <!-- Wings -->
+      <path d="M2 3 L-8 1 L-8 5 L2 3 Z" 
+            fill="#1f5f3f"/>
+      
+      <!-- Tail -->
+      <path d="M6 2 L8 0 L8 4 L6 2 Z" 
+            fill="#1f5f3f"/>
+    </g>
+  </g>
+  
+  <!-- Text: MyTrippers.com -->
+  <text x="100" y="50" 
+        font-family="Arial, sans-serif" 
+        font-size="18" 
+        font-weight="bold" 
+        fill="#1f5f3f" 
+        text-anchor="middle">
+    MyTrippers.com
+  </text>
+  
+  <!-- Tagline: SMART TRAVEL STARTS HERE -->
+  <text x="100" y="65" 
+        font-family="Arial, sans-serif" 
+        font-size="8" 
+        font-weight="600" 
+        fill="#1f5f3f" 
+        text-anchor="middle" 
+        letter-spacing="0.5">
+    SMART TRAVEL STARTS HERE
+  </text>
+</svg> 

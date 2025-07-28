@@ -23,13 +23,7 @@ exports.searchFlights = async (req, res) => {
         let formattedFlights;
         if (return_date) {
             // Round trip - use round trip transformation
-            console.log('=== ROUND TRIP DEBUG ===');
-            console.log('API Response length:', travelpayoutsData.length);
-            console.log('First item proposals:', travelpayoutsData[0]?.proposals?.length);
-            console.log('Sample proposal segments:', travelpayoutsData[0]?.proposals?.[0]?.segment?.length);
             formattedFlights = await transformTravelpayoutsRoundTripResponse(travelpayoutsData);
-            console.log('Round trip flights found:', formattedFlights.length);
-            console.log('========================');
         } else {
             // One-way - use existing transformation (untouched)
             formattedFlights = await transformTravelpayoutsFlightResponse(travelpayoutsData);
@@ -45,15 +39,6 @@ exports.searchFlights = async (req, res) => {
             errors: []
         });
         
-        // Debug logs at the end so they're visible
-        console.log('=== FLIGHT SEARCH DEBUG ===');
-        console.log('Flight search controller called at', new Date().toISOString());
-        console.log('Request body:', req.body);
-        console.log('Request query:', req.query);
-        console.log('Extracted params:', { from, to, date, return_date, adults });
-        console.log('Is Round Trip:', !!return_date);
-        console.log('Total flights found:', allFlights.length);
-        console.log('================================');
     } catch (error) {
         console.error('Search error:', error.message);
         if (error.message === 'No flight results returned from Travelpayouts v1') {

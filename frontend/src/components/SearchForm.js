@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import './SearchForm.css';
+import logoImage from '../assets/logo.jpg';
 
 // Popular airports data (Indian + International)
 const popularAirports = [
@@ -102,13 +103,74 @@ const popularAirports = [
   { code: 'CPT', city: 'Cape Town', name: 'Cape Town International Airport', country: 'South Africa' },
   { code: 'CAI', city: 'Cairo', name: 'Cairo International Airport', country: 'Egypt' },
   { code: 'NBO', city: 'Nairobi', name: 'Jomo Kenyatta International Airport', country: 'Kenya' },
-  { code: 'LAG', city: 'Lagos', name: 'Murtala Muhammed International Airport', country: 'Nigeria' },
+  { code: 'LOS', city: 'Lagos', name: 'Murtala Muhammed International Airport', country: 'Nigeria' },
   { code: 'ADD', city: 'Addis Ababa', name: 'Bole International Airport', country: 'Ethiopia' },
   { code: 'DAR', city: 'Dar es Salaam', name: 'Julius Nyerere International Airport', country: 'Tanzania' },
+  { code: 'KGL', city: 'Kigali', name: 'Kigali International Airport', country: 'Rwanda' },
   { code: 'KRT', city: 'Khartoum', name: 'Khartoum International Airport', country: 'Sudan' },
   { code: 'CMN', city: 'Casablanca', name: 'Mohammed V International Airport', country: 'Morocco' },
+  { code: 'ALG', city: 'Algiers', name: 'Houari Boumediene Airport', country: 'Algeria' },
   { code: 'TUN', city: 'Tunis', name: 'Carthage International Airport', country: 'Tunisia' },
-  { code: 'ALG', city: 'Algiers', name: 'Houari Boumediene Airport', country: 'Algeria' }
+  { code: 'LUN', city: 'Lusaka', name: 'Kenneth Kaunda International Airport', country: 'Zambia' },
+  { code: 'HRE', city: 'Harare', name: 'Robert Gabriel Mugabe International Airport', country: 'Zimbabwe' },
+  { code: 'GBE', city: 'Gaborone', name: 'Sir Seretse Khama International Airport', country: 'Botswana' },
+  { code: 'WDH', city: 'Windhoek', name: 'Hosea Kutako International Airport', country: 'Namibia' },
+  { code: 'MPM', city: 'Maputo', name: 'Maputo International Airport', country: 'Mozambique' },
+  { code: 'BJM', city: 'Bujumbura', name: 'Bujumbura International Airport', country: 'Burundi' },
+  { code: 'BGF', city: 'Bangui', name: 'Bangui MPoko International Airport', country: 'Central African Republic' },
+  { code: 'NDJ', city: 'NDjamena', name: 'NDjamena International Airport', country: 'Chad' },
+  { code: 'BZV', city: 'Brazzaville', name: 'Maya-Maya Airport', country: 'Republic of the Congo' },
+  { code: 'FIH', city: 'Kinshasa', name: 'NDjili Airport', country: 'Democratic Republic of the Congo' },
+  { code: 'SSA', city: 'Salvador', name: 'Deputado Luís Eduardo Magalhães International Airport', country: 'Brazil' },
+  { code: 'GIG', city: 'Rio de Janeiro', name: 'Galeão International Airport', country: 'Brazil' },
+  { code: 'GRU', city: 'São Paulo', name: 'Guarulhos International Airport', country: 'Brazil' },
+  { code: 'BSB', city: 'Brasília', name: 'Brasília International Airport', country: 'Brazil' },
+  { code: 'EZE', city: 'Buenos Aires', name: 'Ministro Pistarini International Airport', country: 'Argentina' },
+  { code: 'SCL', city: 'Santiago', name: 'Arturo Merino Benítez International Airport', country: 'Chile' },
+  { code: 'LIM', city: 'Lima', name: 'Jorge Chávez International Airport', country: 'Peru' },
+  { code: 'BOG', city: 'Bogotá', name: 'El Dorado International Airport', country: 'Colombia' },
+  { code: 'UIO', city: 'Quito', name: 'Mariscal Sucre International Airport', country: 'Ecuador' },
+  { code: 'CCS', city: 'Caracas', name: 'Simón Bolívar International Airport', country: 'Venezuela' },
+  { code: 'ASU', city: 'Asunción', name: 'Silvio Pettirossi International Airport', country: 'Paraguay' },
+  { code: 'MVD', city: 'Montevideo', name: 'Carrasco International Airport', country: 'Uruguay' },
+  { code: 'LPB', city: 'La Paz', name: 'El Alto International Airport', country: 'Bolivia' },
+  { code: 'GUA', city: 'Guatemala City', name: 'La Aurora International Airport', country: 'Guatemala' },
+  { code: 'SAL', city: 'San Salvador', name: 'Óscar Arnulfo Romero International Airport', country: 'El Salvador' },
+  { code: 'TGU', city: 'Tegucigalpa', name: 'Toncontín International Airport', country: 'Honduras' },
+  { code: 'MGA', city: 'Managua', name: 'Augusto C. Sandino International Airport', country: 'Nicaragua' },
+  { code: 'SJO', city: 'San José', name: 'Juan Santamaría International Airport', country: 'Costa Rica' },
+  { code: 'PTY', city: 'Panama City', name: 'Tocumen International Airport', country: 'Panama' },
+  { code: 'HAV', city: 'Havana', name: 'José Martí International Airport', country: 'Cuba' },
+  { code: 'SDQ', city: 'Santo Domingo', name: 'Las Américas International Airport', country: 'Dominican Republic' },
+  { code: 'KIN', city: 'Kingston', name: 'Norman Manley International Airport', country: 'Jamaica' },
+  { code: 'NAS', city: 'Nassau', name: 'Lynden Pindling International Airport', country: 'Bahamas' },
+  { code: 'BGI', city: 'Bridgetown', name: 'Grantley Adams International Airport', country: 'Barbados' },
+  { code: 'POS', city: 'Port of Spain', name: 'Piarco International Airport', country: 'Trinidad and Tobago' },
+  { code: 'GEO', city: 'Georgetown', name: 'Cheddi Jagan International Airport', country: 'Guyana' },
+  { code: 'PBM', city: 'Paramaribo', name: 'Johan Adolf Pengel International Airport', country: 'Suriname' },
+  { code: 'CAY', city: 'Cayenne', name: 'Cayenne – Félix Eboué Airport', country: 'French Guiana' },
+  { code: 'BEL', city: 'Belém', name: 'Val de Cans International Airport', country: 'Brazil' },
+  { code: 'MAO', city: 'Manaus', name: 'Eduardo Gomes International Airport', country: 'Brazil' },
+  { code: 'FOR', city: 'Fortaleza', name: 'Pinto Martins International Airport', country: 'Brazil' },
+  { code: 'REC', city: 'Recife', name: 'Guararapes International Airport', country: 'Brazil' },
+  { code: 'NAT', city: 'Natal', name: 'Augusto Severo International Airport', country: 'Brazil' },
+  { code: 'JOI', city: 'Joinville', name: 'Joinville-Lauro Carneiro de Loyola Airport', country: 'Brazil' },
+  { code: 'CWB', city: 'Curitiba', name: 'Afonso Pena International Airport', country: 'Brazil' },
+  { code: 'POA', city: 'Porto Alegre', name: 'Salgado Filho International Airport', country: 'Brazil' },
+  { code: 'FLN', city: 'Florianópolis', name: 'Hercílio Luz International Airport', country: 'Brazil' },
+  { code: 'CGR', city: 'Campo Grande', name: 'Campo Grande International Airport', country: 'Brazil' },
+  { code: 'CGB', city: 'Cuiabá', name: 'Marechal Rondon International Airport', country: 'Brazil' },
+  { code: 'BEL', city: 'Belém', name: 'Val de Cans International Airport', country: 'Brazil' },
+  { code: 'MAO', city: 'Manaus', name: 'Eduardo Gomes International Airport', country: 'Brazil' },
+  { code: 'FOR', city: 'Fortaleza', name: 'Pinto Martins International Airport', country: 'Brazil' },
+  { code: 'REC', city: 'Recife', name: 'Guararapes International Airport', country: 'Brazil' },
+  { code: 'NAT', city: 'Natal', name: 'Augusto Severo International Airport', country: 'Brazil' },
+  { code: 'JOI', city: 'Joinville', name: 'Joinville-Lauro Carneiro de Loyola Airport', country: 'Brazil' },
+  { code: 'CWB', city: 'Curitiba', name: 'Afonso Pena International Airport', country: 'Brazil' },
+  { code: 'POA', city: 'Porto Alegre', name: 'Salgado Filho International Airport', country: 'Brazil' },
+  { code: 'FLN', city: 'Florianópolis', name: 'Hercílio Luz International Airport', country: 'Brazil' },
+  { code: 'CGR', city: 'Campo Grande', name: 'Campo Grande International Airport', country: 'Brazil' },
+  { code: 'CGB', city: 'Cuiabá', name: 'Marechal Rondon International Airport', country: 'Brazil' }
 ];
 
 const SearchForm = ({ onSearch }) => {
@@ -117,80 +179,67 @@ const SearchForm = ({ onSearch }) => {
     to: '',
     date: '',
     return_date: '',
-    adults: 1,
+    adults: '1',
     tripType: 'one-way'
   });
 
-  const [showFromDropdown, setShowFromDropdown] = useState(false);
-  const [showToDropdown, setShowToDropdown] = useState(false);
   const [fromSuggestions, setFromSuggestions] = useState([]);
   const [toSuggestions, setToSuggestions] = useState([]);
-  const [selectedFrom, setSelectedFrom] = useState(null);
-  const [selectedTo, setSelectedTo] = useState(null);
-
+  const [showFromDropdown, setShowFromDropdown] = useState(false);
+  const [showToDropdown, setShowToDropdown] = useState(false);
   const fromInputRef = useRef(null);
   const toInputRef = useRef(null);
 
-  // Filter airports based on search input
   const filterAirports = (searchTerm) => {
-    if (!searchTerm) return popularAirports;
-    
+    if (!searchTerm) return [];
     const term = searchTerm.toLowerCase();
-    return popularAirports.filter(airport => 
+    return popularAirports.filter(airport =>
       airport.code.toLowerCase().includes(term) ||
       airport.city.toLowerCase().includes(term) ||
-      airport.name.toLowerCase().includes(term) ||
-      (airport.country && airport.country.toLowerCase().includes(term))
-    );
+      airport.name.toLowerCase().includes(term)
+    ).slice(0, 10);
   };
 
-  // Handle input changes for From field
   const handleFromInputChange = (e) => {
     const value = e.target.value;
     setFormData(prev => ({ ...prev, from: value }));
     
-    if (value.length > 0) {
-      const filtered = filterAirports(value);
-      setFromSuggestions(filtered);
+    if (value.length >= 2) {
+      const suggestions = filterAirports(value);
+      setFromSuggestions(suggestions);
       setShowFromDropdown(true);
     } else {
-      setShowFromDropdown(false);
       setFromSuggestions([]);
+      setShowFromDropdown(false);
     }
   };
 
-  // Handle input changes for To field
   const handleToInputChange = (e) => {
     const value = e.target.value;
     setFormData(prev => ({ ...prev, to: value }));
     
-    if (value.length > 0) {
-      const filtered = filterAirports(value);
-      setToSuggestions(filtered);
+    if (value.length >= 2) {
+      const suggestions = filterAirports(value);
+      setToSuggestions(suggestions);
       setShowToDropdown(true);
     } else {
-      setShowToDropdown(false);
       setToSuggestions([]);
+      setShowToDropdown(false);
     }
   };
 
-  // Handle airport selection for From field
   const handleFromSelect = (airport) => {
     setFormData(prev => ({ ...prev, from: airport.code }));
-    setSelectedFrom(airport);
-    setShowFromDropdown(false);
     setFromSuggestions([]);
+    setShowFromDropdown(false);
   };
 
-  // Handle airport selection for To field
   const handleToSelect = (airport) => {
     setFormData(prev => ({ ...prev, to: airport.code }));
-    setSelectedTo(airport);
-    setShowToDropdown(false);
     setToSuggestions([]);
+    setShowToDropdown(false);
   };
 
-  // Close dropdowns when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (fromInputRef.current && !fromInputRef.current.contains(event.target)) {
@@ -230,19 +279,19 @@ const SearchForm = ({ onSearch }) => {
 
   return (
     <div className="search-form-container">
+      {/* Hero Text Section */}
+      <div className="hero-text-section">
+        <h1 className="hero-title">Find & Book Your Perfect Trip</h1>
+        <p className="hero-subtitle">Compare prices from hundreds of travel sites and book flights, hotels, and cars at the best rates</p>
+      </div>
+
       {/* Logo Section */}
       <div className="logo-section">
-        <div className="logo">
-          <div className="airplane-icon">
-            <svg viewBox="0 0 24 24" fill="currentColor">
-              <path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/>
-            </svg>
-          </div>
-          <div className="logo-text">
-            <h1 className="logo-title">MyTrippers</h1>
-            <p className="logo-tagline">ALL FLIGHTS. ONE PLACE.</p>
-          </div>
-        </div>
+        <img 
+          src={logoImage} 
+          alt="MyTrippers.com - Smart Travel Starts Here" 
+          className="search-form-logo"
+        />
       </div>
 
       <form onSubmit={handleSubmit} className="search-form">
@@ -334,6 +383,7 @@ const SearchForm = ({ onSearch }) => {
                         <div className="airport-details">
                           <div className="airport-city">{airport.city}</div>
                           <div className="airport-name">{airport.name}</div>
+                          {airport.country && <div className="airport-country">{airport.country}</div>}
                         </div>
                       </div>
                     ))
@@ -382,7 +432,9 @@ const SearchForm = ({ onSearch }) => {
               onChange={handleInputChange}
             >
               {[1, 2, 3, 4, 5, 6, 7, 8, 9].map(num => (
-                <option key={num} value={num}>{num} {num === 1 ? 'Passenger' : 'Passengers'}</option>
+                <option key={num} value={num}>
+                  {num} {num === 1 ? 'Passenger' : 'Passengers'}
+                </option>
               ))}
             </select>
           </div>

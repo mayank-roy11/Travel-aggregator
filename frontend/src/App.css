@@ -8,7 +8,7 @@
 .App-header {
   background: white;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  padding: 1rem 0;
+  padding: 0.25rem 0;
   position: sticky;
   top: 0;
   z-index: 100;
@@ -23,30 +23,36 @@
   align-items: center;
 }
 
+/* Logo Styles */
 .logo {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  cursor: pointer;
+  transition: transform 0.2s ease;
 }
 
-.logo .airplane-icon {
-  font-size: 1.5rem;
-  color: #3b82f6;
+.logo:hover {
+  transform: scale(1.02);
 }
 
-.logo h1 {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #1f2937;
-  margin: 0;
+.logo-image {
+  height: 150px;
+  width: auto;
+  object-fit: contain;
+  transition: filter 0.2s ease;
 }
 
-nav {
+.logo:hover .logo-image {
+  filter: brightness(1.1);
+}
+
+/* Navigation Styles */
+.header-nav {
   display: flex;
   gap: 2rem;
 }
 
-nav a {
+.header-nav a {
   text-decoration: none;
   color: #6b7280;
   font-weight: 500;
@@ -54,8 +60,8 @@ nav a {
   padding: 0.5rem 0;
 }
 
-nav a:hover {
-  color: #3b82f6;
+.header-nav a:hover {
+  color: #1f5f3f;
 }
 
 /* Main Content */
@@ -63,18 +69,244 @@ nav a:hover {
   flex: 1;
 }
 
-/* Footer */
+/* Footer Styles */
 .App-footer {
-  background: #f9fafb;
-  padding: 2rem 0;
-  text-align: center;
-  border-top: 1px solid #e5e7eb;
+  background: #1e293b;
+  color: white;
+  margin-top: auto;
 }
 
-.App-footer p {
-  margin: 0;
-  color: #6b7280;
+/* Newsletter Section */
+.newsletter-section {
+  background: #f8fafc;
+  padding: 2rem 0;
+  text-align: center;
+}
+
+.browse-guides-btn {
+  background: #10b981;
+  color: white;
+  border: none;
+  padding: 0.75rem 2rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.browse-guides-btn:hover {
+  background: #059669;
+}
+
+/* Main Footer */
+.footer-main {
+  padding: 3rem 0 2rem 0;
+}
+
+.footer-content {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1.5fr;
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* Footer Column */
+.footer-column {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* MyTrippers Logo */
+.footer-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.logo-icon {
+  background: #10b981;
+  color: white;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.logo-text {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: white;
+}
+
+/* Footer Description */
+.footer-description {
+  color: #cbd5e1;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+/* Social Icons */
+.social-icons {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.social-icon {
+  color: white;
+  text-decoration: none;
+  font-size: 1.2rem;
+  transition: color 0.2s ease;
+}
+
+.social-icon:hover {
+  color: #10b981;
+}
+
+/* Copyright */
+.copyright {
+  color: #94a3b8;
   font-size: 0.875rem;
+  margin-top: auto;
+}
+
+/* Footer Headings */
+.footer-heading {
+  color: white;
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+/* Footer Links */
+.footer-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-links li {
+  margin-bottom: 0.5rem;
+}
+
+.footer-links a {
+  color: #cbd5e1;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.footer-links a:hover {
+  color: #10b981;
+}
+
+/* Contact Info */
+.contact-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #cbd5e1;
+}
+
+.contact-icon {
+  color: #10b981;
+  font-size: 1.1rem;
+}
+
+/* Newsletter Subscription */
+.newsletter-subscription {
+  margin-top: 1rem;
+}
+
+.newsletter-title {
+  color: white;
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+
+.newsletter-input {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.newsletter-input input {
+  flex: 1;
+  padding: 0.5rem;
+  border: 1px solid #475569;
+  border-radius: 0.25rem;
+  background: #334155;
+  color: white;
+  font-size: 0.875rem;
+}
+
+.newsletter-input input::placeholder {
+  color: #94a3b8;
+}
+
+.subscribe-btn {
+  background: #10b981;
+  color: white;
+  border: none;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.subscribe-btn:hover {
+  background: #059669;
+}
+
+/* Footer Bottom */
+.footer-bottom {
+  border-top: 1px solid #475569;
+  padding: 1rem 0;
+}
+
+.footer-policies {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.footer-policies a {
+  color: #94a3b8;
+  text-decoration: none;
+  font-size: 0.875rem;
+  transition: color 0.2s ease;
+}
+
+.footer-policies a:hover {
+  color: #10b981;
+}
+
+.separator {
+  color: #475569;
+}
+
+/* Container */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
 }
 
 /* Responsive Design */
@@ -82,14 +314,46 @@ nav a:hover {
   .header-content {
     padding: 0 1rem;
     flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .header-nav {
     gap: 1rem;
   }
   
-  nav {
-    gap: 1rem;
+  .logo-image {
+    height: 30px;
   }
-  
-  .logo h1 {
-    font-size: 1.25rem;
+
+  .footer-content {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    padding: 0 1rem;
+  }
+
+  .footer-policies {
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 0 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .logo-image {
+    height: 25px;
+  }
+
+  .footer-content {
+    padding: 0 1rem;
+  }
+
+  .footer-policies {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .separator {
+    display: none;
   }
 } 
