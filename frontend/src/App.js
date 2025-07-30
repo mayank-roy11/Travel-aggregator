@@ -40,13 +40,6 @@ const Header = () => {
 const Footer = () => {
   return (
     <footer className="App-footer">
-      {/* Newsletter Section */}
-      <div className="newsletter-section">
-        <div className="container">
-          <button className="browse-guides-btn">Browse All Guides</button>
-        </div>
-      </div>
-      
       {/* Main Footer */}
       <div className="footer-main">
         <div className="container">

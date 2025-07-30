@@ -155,6 +155,140 @@ const searchFlightsRealtime = async (origin, destination, departure_date, return
     return results;
 };
 
+// New streaming search function for progressive loading
+const searchFlightsStreaming = async (origin, destination, departure_date, return_date, adults, onProgress) => {
+    const token = process.env.TRAVELPAYOUTS_TOKEN;
+    const marker = process.env.TRAVELPAYOUTS_MARKER;
+    const host = process.env.TRAVELPAYOUTS_HOST || 'localhost';
+
+    // Fetch public IP for user_ip
+    const user_ip = await getPublicIP();
+
+    // Build request body as per docs, with signature as the first property
+    const params = {
+        signature: '', // placeholder, will set after generation
+        host,
+        marker,
+        user_ip,
+        locale: 'en',
+        trip_class: 'Y',
+        passengers: {
+            adults: adults || 1,
+            children: 0,
+            infants: 0
+        },
+        segments: [
+            { origin, destination, date: departure_date }
+        ]
+    };
+    if (return_date) {
+        params.segments.push({ origin: destination, destination: origin, date: return_date });
+    }
+    // Generate signature for the params (excluding the placeholder)
+    params.signature = generateSignature(params, token);
+
+    const headers = {
+        'Content-Type': 'application/json'
+    };
+
+    // Step 1: POST to initialize search
+    let searchId;
+    try {
+        const response = await axios.post(API_URL, params, { headers });
+        searchId = response.data.search_id || response.data.uuid;
+        if (!searchId) throw new Error('No search_id returned from init');
+    } catch (error) {
+        console.error('--- Travelpayouts v1 API Error (Init) ---');
+        console.error('Status:', error.response?.status);
+        console.error('Response Data:', error.response?.data);
+        console.error('Error Message:', error.message);
+        throw new Error('Failed to initialize flight search with Travelpayouts v1');
+    }
+
+    // Step 2: Poll for results with progressive updates
+    // Wait 3 seconds before starting to poll
+    await new Promise(r => setTimeout(r, 3000));
+    
+    let pollCount = 0;
+    let allResults = [];
+    let lastResultCount = 0;
+    
+    while (pollCount < 10) {
+        const pollStart = Date.now();
+        try {
+            const res = await axios.get(`${RESULTS_URL}?uuid=${searchId}`);
+            const pollDuration = (Date.now() - pollStart) / 1000;
+            const results = res.data;
+            
+            if (Array.isArray(results) && results.length > 0) {
+                // Check if we have new results
+                const currentResultCount = results.reduce((total, item) => {
+                    return total + (Array.isArray(item.proposals) ? item.proposals.length : 0);
+                }, 0);
+                
+                if (currentResultCount > lastResultCount) {
+                    // Transform and send ALL results (not just new ones)
+                    const allFlights = return_date 
+                        ? await transformTravelpayoutsRoundTripResponse(results)
+                        : await transformTravelpayoutsFlightResponse(results);
+                    
+                    // Call progress callback with ALL flights
+                    if (onProgress && typeof onProgress === 'function') {
+                        onProgress({
+                            type: 'progress',
+                            flights: allFlights,
+                            totalFound: currentResultCount,
+                            isComplete: false
+                        });
+                    }
+                    
+                    lastResultCount = currentResultCount;
+                    allResults = results;
+                }
+                
+                // If we have substantial results, we can stop early
+                if (currentResultCount >= 30) {
+                    break;
+                }
+            }
+            
+            if (results && results.error) {
+                throw new Error(results.error);
+            }
+            
+            // Wait 1s before next poll
+            if (pollCount < 9) {
+                await new Promise(r => setTimeout(r, 1000));
+            }
+        } catch (err) {
+            console.error('--- Travelpayouts v1 API Error (Streaming Polling) ---');
+            console.error('Error:', err.message);
+            throw new Error('Failed to poll flight search results from Travelpayouts v1');
+        }
+        pollCount++;
+    }
+    
+    // Send final complete results
+    if (onProgress && typeof onProgress === 'function') {
+        const finalFlights = return_date 
+            ? await transformTravelpayoutsRoundTripResponse(allResults)
+            : await transformTravelpayoutsFlightResponse(allResults);
+        
+        onProgress({
+            type: 'complete',
+            flights: finalFlights,
+            totalFound: lastResultCount,
+            isComplete: true
+        });
+    }
+    
+    if (!Array.isArray(allResults)) {
+        throw new Error('No flight results returned from Travelpayouts v1');
+    }
+    
+    return allResults;
+};
+
 // --- Live exchange rate conversion to INR ---
 const exchangeRateCache = { rates: {}, timestamp: 0 };
 const fetchExchangeRatesToINR = async () => {
@@ -357,6 +491,7 @@ const transformTravelpayoutsRoundTripResponse = async (apiResponse) => {
   
       module.exports = {
         searchFlightsRealtime,
+        searchFlightsStreaming,                      // New streaming function
         transformTravelpayoutsFlightResponse,        // One-way (untouched)
         transformTravelpayoutsRoundTripResponse,      // Round trip (new)
         fetchExchangeRatesToINR,

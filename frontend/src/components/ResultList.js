@@ -85,7 +85,7 @@ const getDuration = (dep, arr) => {
   return `${h}h ${m}m`;
 };
 
-const ResultList = ({ results, type, loading, from, to }) => {
+const ResultList = ({ results, type, loading, from, to, isStreaming, streamingProgress }) => {
   const [sortBy, setSortBy] = useState('price');
   const [filterPlatform, setFilterPlatform] = useState('all');
   const [selectedFlight, setSelectedFlight] = useState(null); // For modal
@@ -121,7 +121,13 @@ const ResultList = ({ results, type, loading, from, to }) => {
     );
   }
 
+  // Don't show "No flights found" during streaming - let the streaming indicator handle it
   if (!results || results.length === 0) {
+    // If we're streaming, don't show "no results" message
+    if (isStreaming) {
+      return null; // Let the streaming indicator in the header show the status
+    }
+    
     return (
       <div className="no-results">
         <h3>No {type} found</h3>
@@ -491,6 +497,17 @@ const ResultList = ({ results, type, loading, from, to }) => {
               )}
             </div>
           ))}
+          
+          {/* Streaming indicator */}
+          {isStreaming && (
+            <div className="streaming-indicator-card">
+              <div className="streaming-spinner"></div>
+              <div className="streaming-text">
+                <p>Finding more flights...</p>
+                <p className="streaming-count">{streamingProgress.totalFound} flights found so far</p>
+              </div>
+            </div>
+          )}
         </div>
                   {selectedFlight && (
             <FlightDetailsModal

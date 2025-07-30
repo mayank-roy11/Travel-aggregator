@@ -1,4 +1,4 @@
-const { searchFlightsRealtime, transformTravelpayoutsFlightResponse, transformTravelpayoutsRoundTripResponse } = require('../services/travelpayoutsService');
+const { searchFlightsRealtime, searchFlightsStreaming, transformTravelpayoutsFlightResponse, transformTravelpayoutsRoundTripResponse } = require('../services/travelpayoutsService');
 const { extractEnhancedFlightDetails } = require('../services/flightDetailsEnhancer');
 const axios = require('axios');
 
@@ -226,6 +226,71 @@ exports.searchFlightsWithMultiplePrices = async (req, res) => {
                 providersSearched: ['travelpayouts_v1']
             });
         }
+    }
+};
+
+// New streaming search endpoint for progressive loading
+exports.searchFlightsStreaming = async (req, res) => {
+    try {
+        // Support both GET (req.query) and POST (req.body)
+        const from = req.body.from || req.query.from;
+        const to = req.body.to || req.query.to;
+        const date = req.body.date || req.query.date;
+        const return_date = req.body.return_date || req.query.return_date;
+        const adults = req.body.adults || req.query.adults || 1;
+
+        if (!from || !to || !date) {
+            return res.status(400).json({ error: 'Missing required parameters: from, to, or date' });
+        }
+
+        // Set up Server-Sent Events headers
+        res.writeHead(200, {
+            'Content-Type': 'text/event-stream',
+            'Cache-Control': 'no-cache',
+            'Connection': 'keep-alive',
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Headers': 'Cache-Control'
+        });
+
+        // Send initial connection message
+        res.write(`data: ${JSON.stringify({
+            type: 'connected',
+            message: 'Search started'
+        })}\n\n`);
+
+        // Progress callback function
+        const onProgress = (progressData) => {
+            const eventData = {
+                type: progressData.type,
+                flights: progressData.flights,
+                totalFound: progressData.totalFound,
+                isComplete: progressData.isComplete,
+                timestamp: new Date().toISOString()
+            };
+            
+            res.write(`data: ${JSON.stringify(eventData)}\n\n`);
+            
+            // If search is complete, end the stream
+            if (progressData.isComplete) {
+                res.end();
+            }
+        };
+
+        // Start streaming search
+        await searchFlightsStreaming(from, to, date, return_date, adults, onProgress);
+
+    } catch (error) {
+        console.error('Streaming search error:', error.message);
+        
+        // Send error event
+        const errorEvent = {
+            type: 'error',
+            error: error.message,
+            timestamp: new Date().toISOString()
+        };
+        
+        res.write(`data: ${JSON.stringify(errorEvent)}\n\n`);
+        res.end();
     }
 };
 

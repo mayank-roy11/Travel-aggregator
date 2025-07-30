@@ -11,7 +11,6 @@ body {
   margin-top: 1rem;
   width: 100%;
   padding: 0 0.5rem;
-  min-width: 1400px;
 }
 
 @media (max-width: 900px) {
@@ -848,23 +847,23 @@ body {
 
 
 .book-btn-horizontal {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 600;
-  padding: 0.6rem 1.5rem;
-  font-size: 1rem;
-  border-radius: 8px;
-  background: #1F2232;
-  color: #fff;
-  border: none;
-  cursor: pointer;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-  transition: background 0.2s;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-weight: 600 !important;
+  padding: 0.6rem 1.5rem !important;
+  font-size: 1rem !important;
+  border-radius: 8px !important;
+  background: #12263A !important;
+  color: #fff !important;
+  border: none !important;
+  cursor: pointer !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06) !important;
+  transition: background 0.2s !important;
 }
 
 .book-btn-horizontal:hover {
-  background: #292c44;
+  background: #1a2f4a !important;
 }
 
 

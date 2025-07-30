@@ -1,43 +1,136 @@
+/* Results.css */
+
 .results-page {
   padding: 2rem 0;
+  min-height: 100vh;
 }
 
-.search-summary {
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.results-header {
+  text-align: center;
   margin-bottom: 2rem;
-  padding-bottom: 1.5rem;
-  border-bottom: 1px solid var(--border-color);
 }
 
-.search-summary h1 {
-  font-size: 2rem;
+.results-header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
   font-weight: 700;
   color: var(--text-primary);
-  margin-bottom: 0.5rem;
 }
 
-.search-details {
-  font-size: 1.125rem;
+.results-header p {
+  font-size: 1.1rem;
   color: var(--text-secondary);
+}
+
+/* Streaming indicator in header */
+.streaming-indicator {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 0.5rem;
+  margin-top: 1rem;
+  padding: 0.75rem 1.5rem;
+  background: var(--primary-color);
+  border-radius: 2rem;
+  color: white;
 }
 
+.streaming-indicator .spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top: 2px solid white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+.streaming-indicator span {
+  color: white;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Streaming indicator card in results */
+.streaming-indicator-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.5rem;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin: 1rem 0;
+  border: 2px solid #e3f2fd;
+}
+
+.streaming-spinner {
+  width: 24px;
+  height: 24px;
+  border: 3px solid #e3f2fd;
+  border-top: 3px solid #2196f3;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+.streaming-text p {
+  margin: 0;
+  color: #333;
+  font-weight: 500;
+}
+
+.streaming-count {
+  font-size: 0.9rem;
+  color: #666;
+  margin-top: 0.25rem;
+}
+
+/* Error container */
 .error-container {
   text-align: center;
   padding: 3rem 1rem;
-  max-width: 500px;
-  margin: 0 auto;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin: 2rem 0;
 }
 
 .error-container h2 {
-  font-size: 1.5rem;
-  color: var(--danger-color);
+  color: #d32f2f;
   margin-bottom: 1rem;
 }
 
 .error-container p {
-  color: var(--text-secondary);
+  color: #666;
   margin-bottom: 2rem;
-  line-height: 1.6;
+}
+
+.btn {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-primary {
+  background: #2196f3;
+  color: white;
+}
+
+.btn-primary:hover {
+  background: #1976d2;
+  transform: translateY(-1px);
 } 

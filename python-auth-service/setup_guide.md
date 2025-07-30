@@ -11,8 +11,7 @@ Choose a MySQL hosting service:
 
 ### **1.2 Run Database Schema**
 ```sql
--- Copy and paste the contents of database_schema.sql
--- into your MySQL database management tool
+
 ```
 
 ### **1.3 Get Database Connection String**
