@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import ResultList from '../components/ResultList';
+import { API_BASE_URL } from '../config/apiConfig';
 import './Results.css';
 
 const Results = () => {
@@ -50,7 +51,7 @@ const Results = () => {
     };
 
     const fetchResultsStreaming = async () => {
-      let url = 'http://localhost:5000/api/flights/search/stream';
+      let url = `${API_BASE_URL}/flights/search/stream`;
       let params = new URLSearchParams();
       params.append('from', from);
       params.append('to', to);
@@ -71,7 +72,7 @@ const Results = () => {
           
           switch (data.type) {
             case 'connected':
-              console.log('Streaming search started');
+              // console.log('Streaming search started');
               break;
               
             case 'progress':
@@ -135,7 +136,7 @@ const Results = () => {
       let params = new URLSearchParams();
 
       if (type === 'flights') {
-        url = 'http://localhost:5000/api/flights/search';
+        url = `${API_BASE_URL}/flights/search`;
         params.append('from', from);
         params.append('to', to);
         params.append('date', date);
@@ -146,7 +147,7 @@ const Results = () => {
           params.append('adults', searchParams.get('adults'));
         }
       } else {
-        url = 'http://localhost:5000/api/hotels/search';
+        url = `${API_BASE_URL}/hotels/search`;
         params.append('city', city);
         params.append('checkIn', checkIn);
         params.append('checkOut', checkOut);

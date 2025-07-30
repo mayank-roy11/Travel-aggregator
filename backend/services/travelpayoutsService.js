@@ -220,6 +220,13 @@ const searchFlightsStreaming = async (origin, destination, departure_date, retur
             const pollDuration = (Date.now() - pollStart) / 1000;
             const results = res.data;
             
+            // Log raw API response (only on first successful poll to avoid spam)
+            if (pollCount === 0 && Array.isArray(results) && results.length > 0) {
+                console.log('--- RAW Travelpayouts API Response (Streaming) ---');
+                console.dir(results, { depth: 5 });
+                console.log('--------------------------------------------------------');
+            }
+            
             if (Array.isArray(results) && results.length > 0) {
                 // Check if we have new results
                 const currentResultCount = results.reduce((total, item) => {

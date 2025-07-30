@@ -14,5 +14,5 @@ export const API_BASE_URL = getApiBaseUrl();
 
 // Log the API URL for debugging (only in development)
 if (process.env.NODE_ENV === 'development') {
-  console.log('API Base URL:', API_BASE_URL);
+  // console.log('API Base URL:', API_BASE_URL);
 } 
