@@ -76,16 +76,8 @@ const Results = () => {
               break;
               
             case 'progress':
-              // Update results with new flights
-              setResults(prevResults => {
-                // Merge new flights, avoiding duplicates
-                const existingIds = new Set(prevResults.map(f => `${f.airline}-${f.flightNumber}-${f.departureTime}`));
-                const newFlights = data.flights.filter(f => {
-                  const id = `${f.airline}-${f.flightNumber}-${f.departureTime}`;
-                  return !existingIds.has(id);
-                });
-                return [...prevResults, ...newFlights];
-              });
+              // Replace results with the complete list from backend
+              setResults(data.flights);
               setStreamingProgress({
                 totalFound: data.totalFound,
                 isComplete: false

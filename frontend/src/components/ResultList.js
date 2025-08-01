@@ -57,6 +57,18 @@ const airlineLogos = {
 };
 const getAirlineLogo = (code) => airlineLogos[(code || '').toUpperCase().trim()] || null;
 
+// Airline logo helper function
+const getAirlineLogoUrl = (iataCode, width = 40, height = 40) => {
+  if (!iataCode) return null;
+  return `http://img.wway.io/pics/root/${iataCode}@png?exar=1&rs=fit:${width}:${height}`;
+};
+
+// Agency logo helper function  
+const getAgencyLogoUrl = (agencyId, width = 110, height = 70) => {
+  if (!agencyId) return null;
+  return `http://img.wway.io/pics/as_gates/${agencyId}@png?exar=1&rs=fit:${width}:${height}`;
+};
+
 // Move formatDateTime to top-level scope
 const formatDateTime = (isoString) => {
   if (!isoString) return '';
@@ -368,7 +380,11 @@ const ResultList = ({ results, type, loading, from, to, isStreaming, streamingPr
                 onChange={(e) => handleFilterChange('departureTime', 'earlyMorning', e.target.checked)}
               />
               <span className="checkmark"></span>
-              <span className="time-icon">🌅</span>
+              <span className="time-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                </svg>
+              </span>
               <div className="time-text">
                 <div>Early Morning</div>
                 <div className="time-subtitle">Before 6AM</div>
@@ -381,7 +397,11 @@ const ResultList = ({ results, type, loading, from, to, isStreaming, streamingPr
                 onChange={(e) => handleFilterChange('departureTime', 'morning', e.target.checked)}
               />
               <span className="checkmark"></span>
-              <span className="time-icon">☀️</span>
+              <span className="time-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L5.99 4.58zm12.37 12.37c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0 .39-.39.39-1.03 0-1.41l-1.06-1.06zm1.06-10.96c.39-.39.39-1.03 0-1.41-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06zM7.05 18.36c.39-.39.39-1.03 0-1.41-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06z"/>
+                </svg>
+              </span>
               <div className="time-text">
                 <div>Morning</div>
                 <div className="time-subtitle">6AM - 12PM</div>
@@ -394,7 +414,11 @@ const ResultList = ({ results, type, loading, from, to, isStreaming, streamingPr
                 onChange={(e) => handleFilterChange('departureTime', 'midDay', e.target.checked)}
               />
               <span className="checkmark"></span>
-              <span className="time-icon">☀️</span>
+              <span className="time-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                </svg>
+              </span>
               <div className="time-text">
                 <div>Mid Day</div>
                 <div className="time-subtitle">12PM - 6PM</div>
@@ -407,7 +431,11 @@ const ResultList = ({ results, type, loading, from, to, isStreaming, streamingPr
                 onChange={(e) => handleFilterChange('departureTime', 'night', e.target.checked)}
               />
               <span className="checkmark"></span>
-              <span className="time-icon">🌙</span>
+              <span className="time-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.4 2.26-3.03 0-5.5-2.47-5.5-5.5 0-1.82.89-3.42 2.26-4.4-.44-.06-.9-.1-1.36-.1z"/>
+                </svg>
+              </span>
               <div className="time-text">
                 <div>Night</div>
                 <div className="time-subtitle">After 6PM</div>
@@ -531,7 +559,10 @@ const ResultList = ({ results, type, loading, from, to, isStreaming, streamingPr
 };
 
 const FlightCard = ({ result, formatPrice, onViewDetails, onBookingClick, isCheapest }) => {
-  const logo = getAirlineLogo(result.airline);
+  // Try TravelPayouts logo first, fallback to local logos
+  const airlineLogoUrl = getAirlineLogoUrl(result.airline);
+  const localLogo = getAirlineLogo(result.airline);
+  const logo = airlineLogoUrl || localLogo;
   
   // Check if this is a round trip
   const isRoundTrip = result.isRoundTrip && result.onward && result.return;
@@ -553,7 +584,19 @@ const FlightCard = ({ result, formatPrice, onViewDetails, onBookingClick, isChea
             {isCheapest && <div className="cheapest-tag">Cheapest</div>}
             {/* Left: Logo in its own column, vertically centered */}
             <div className="flight-card-col flight-card-col-logo">
-              {logo && <img src={logo} alt={result.airline} className="airline-logo prominent-airline-logo" />}
+              {logo && (
+                <img 
+                  src={logo} 
+                  alt={result.airline} 
+                  className="airline-logo prominent-airline-logo"
+                  onError={(e) => {
+                    // Fallback to local logo if TravelPayouts logo fails
+                    if (airlineLogoUrl && e.target.src === airlineLogoUrl) {
+                      e.target.src = localLogo || '';
+                    }
+                  }}
+                />
+              )}
             </div>
             {/* Airline name and flight number stacked */}
             <div className="flight-card-col flight-card-col-airline-info">
@@ -598,7 +641,19 @@ const FlightCard = ({ result, formatPrice, onViewDetails, onBookingClick, isChea
             {isCheapest && <div className="cheapest-tag">Cheapest</div>}
             {/* Left: Logo in its own column, vertically centered */}
             <div className="flight-card-col flight-card-col-logo">
-              {logo && <img src={logo} alt={result.airline} className="airline-logo prominent-airline-logo" />}
+              {logo && (
+                <img 
+                  src={logo} 
+                  alt={result.airline} 
+                  className="airline-logo prominent-airline-logo"
+                  onError={(e) => {
+                    // Fallback to local logo if TravelPayouts logo fails
+                    if (airlineLogoUrl && e.target.src === airlineLogoUrl) {
+                      e.target.src = localLogo || '';
+                    }
+                  }}
+                />
+              )}
             </div>
             {/* Airline name and flight number stacked */}
             <div className="flight-card-col flight-card-col-airline-info">
@@ -652,7 +707,19 @@ const FlightCard = ({ result, formatPrice, onViewDetails, onBookingClick, isChea
         
         {/* Left: Logo in its own column, vertically centered */}
         <div className="flight-card-col flight-card-col-logo">
-          {logo && <img src={logo} alt={result.airline} className="airline-logo prominent-airline-logo" />}
+          {logo && (
+            <img 
+              src={logo} 
+              alt={result.airline} 
+              className="airline-logo prominent-airline-logo"
+              onError={(e) => {
+                // Fallback to local logo if TravelPayouts logo fails
+                if (airlineLogoUrl && e.target.src === airlineLogoUrl) {
+                  e.target.src = localLogo || '';
+                }
+              }}
+            />
+          )}
         </div>
         {/* Airline name and flight number stacked */}
         <div className="flight-card-col flight-card-col-airline-info">
