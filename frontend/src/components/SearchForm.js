@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import './SearchForm.css';
-import logoImage from '../assets/logo.jpg';
+import logoImage from '../assets/logo.png';
 
 // Popular airports data (Indian + International)
 const popularAirports = [
@@ -285,14 +285,6 @@ const SearchForm = ({ onSearch }) => {
         <p className="hero-subtitle">Compare prices from hundreds of travel sites and book flights, hotels, and cars at the best rates</p>
       </div>
 
-      {/* Logo Section */}
-      <div className="logo-section">
-        <img 
-          src={logoImage} 
-          alt="MyTrippers.com - Smart Travel Starts Here" 
-          className="search-form-logo"
-        />
-      </div>
 
       <form onSubmit={handleSubmit} className="search-form">
         <div className="trip-type-selector">
