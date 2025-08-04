@@ -746,37 +746,196 @@ body {
 
 @media (max-width: 900px) {
   .modern-flight-card {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 1rem;
-  }
-  .flight-card-center, .flight-card-right, .flight-card-left {
+    display: flex;
+    flex-direction: row;
     align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 0.75rem;
+    background: white;
+    min-height: 80px;
+  }
+  
+  .flight-card-left {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-shrink: 0;
+  }
+  
+  .flight-card-center {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
     min-width: 0;
   }
+  
   .flight-card-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.5rem;
+    flex-shrink: 0;
+    min-width: 80px;
+  }
+  
+  .airline-logo {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .prominent-airline-name {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #1f2937;
+  }
+  
+  .flight-number-prominent {
+    font-size: 0.75rem;
+    color: #6b7280;
+  }
+  
+  .flight-times-row {
+    display: flex;
+    flex-direction: row;
     align-items: center;
+    gap: 1rem;
+  }
+  
+  .flight-time-block {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+  }
+  
+  .flight-time {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #1f2937;
+  }
+  
+  .flight-airport {
+    font-size: 0.75rem;
+    color: #6b7280;
+  }
+  
+  .flight-duration-block {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+  }
+  
+  .flight-duration {
+    font-size: 0.75rem;
+    color: #6b7280;
+  }
+  
+  .flight-nonstop {
+    font-size: 0.7rem;
+    color: #10b981;
+    font-weight: 500;
+  }
+  
+  .price-large .amount {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #1f2937;
+  }
+  
+  .book-btn-horizontal {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    background: #3b82f6;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    white-space: nowrap;
+  }
+  
+  .book-btn-horizontal:hover {
+    background: #2563eb;
+  }
+  
+  .flight-details-btn {
+    font-size: 0.7rem;
+    color: #6b7280;
+    text-decoration: none;
+    text-align: center;
   }
 }
 
 @media (max-width: 480px) {
   .modern-flight-card {
     padding: 0.75rem !important;
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
+    min-height: 70px;
+  }
+  
+  .flight-card-left {
     gap: 0.5rem;
   }
-  .flight-times-row, .flight-date-row {
-    gap: 1rem;
+  
+  .airline-logo {
+    width: 28px;
+    height: 28px;
   }
+  
+  .prominent-airline-name {
+    font-size: 0.85rem;
+  }
+  
+  .flight-number-prominent {
+    font-size: 0.7rem;
+  }
+  
+  .flight-times-row {
+    gap: 0.75rem;
+  }
+  
   .flight-time {
-    font-size: 1.1rem;
+    font-size: 0.9rem;
   }
-  .flight-card-right {
-    min-width: 0;
-    width: 100%;
+  
+  .flight-airport {
+    font-size: 0.7rem;
   }
-  .flight-details-btn, .btn, .btn-primary {
+  
+  .flight-duration {
+    font-size: 0.7rem;
+  }
+  
+  .flight-nonstop {
+    font-size: 0.65rem;
+  }
+  
+  .price-large .amount {
     font-size: 1rem;
-    padding: 0.5rem 1rem;
+  }
+  
+  .flight-card-right {
+    min-width: 70px;
+  }
+  
+  .book-btn-horizontal {
+    padding: 0.4rem 0.6rem;
+    font-size: 0.75rem;
+  }
+  
+  .flight-details-btn {
+    font-size: 0.65rem;
   }
 }
 
@@ -879,45 +1038,277 @@ body {
 
 @media (max-width: 900px) {
   .modern-flight-card-horizontal {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 0.75rem;
-    padding: 0.75rem;
-  }
-  .flight-card-col-right, .flight-card-col-left {
+    display: flex;
+    flex-direction: row;
     align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    padding: 0.75rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 0.75rem;
+    background: white;
+    min-height: 70px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .flight-card-left {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-shrink: 0;
+    min-width: 0;
+  }
+  
+  .flight-card-center {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
     min-width: 0;
     max-width: 100%;
   }
-  .flight-card-col-right {
+  
+  .flight-card-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.5rem;
+    flex-shrink: 0;
+    min-width: 60px;
+    max-width: 80px;
+  }
+  
+  .airline-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    min-width: 0;
+  }
+  
+  .flight-times-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+    min-width: 0;
     width: 100%;
   }
-  .book-btn-horizontal, .flight-details-btn-horizontal {
-    width: 100%;
-    max-width: 100%;
+  
+  .flight-time-block {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    flex: 1;
+    min-width: 0;
+  }
+  
+  .flight-duration-block {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    flex-shrink: 0;
+    min-width: 50px;
+  }
+  
+
+  
+  .airline-logo {
+    width: 28px;
+    height: 28px;
+  }
+  
+  .prominent-airline-name {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #1f2937;
+  }
+  
+  .flight-number-prominent {
+    font-size: 0.7rem;
+    color: #6b7280;
+  }
+  
+
+  
+  .price-large .amount {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #1f2937;
+  }
+  
+  .book-btn-horizontal {
+    padding: 0.4rem 0.6rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    background: #3b82f6;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    white-space: nowrap;
+  }
+  
+  .book-btn-horizontal:hover {
+    background: #2563eb;
+  }
+  
+  .flight-details-link {
+    font-size: 0.65rem;
+    color: #3b82f6;
+    text-decoration: none;
+    text-align: center;
+    cursor: pointer;
+    font-weight: 500;
   }
 }
 
 @media (max-width: 480px) {
   .modern-flight-card-horizontal {
-    padding: 0.4rem !important;
+    padding: 0.6rem !important;
+    gap: 0.4rem;
+    min-height: 60px;
+  }
+  
+  .flight-card-left {
     gap: 0.4rem;
   }
-  .flight-times-horizontal {
-    gap: 1rem;
+  
+  .flight-card-center {
+    gap: 0.2rem;
   }
-  .flight-time-bold {
-    font-size: 1.1rem;
+  
+  .flight-card-right {
+    min-width: 50px;
+    max-width: 70px;
+    gap: 0.3rem;
   }
-  .flight-card-col-right {
-    min-width: 0;
-    width: 100%;
+  
+  .airline-logo {
+    width: 24px;
+    height: 24px;
   }
-  .book-btn-horizontal, .flight-details-btn-horizontal {
-    width: 100%;
-    max-width: 100%;
+  
+  .prominent-airline-name {
+    font-size: 0.8rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .flight-number-prominent {
+    font-size: 0.65rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .flight-times-row {
+    gap: 0.3rem;
+  }
+  
+  .flight-time {
+    font-size: 0.8rem;
+  }
+  
+  .flight-airport {
+    font-size: 0.65rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .flight-duration {
+    font-size: 0.65rem;
+  }
+  
+  .flight-nonstop {
+    font-size: 0.6rem;
+  }
+  
+  .price-large .amount {
     font-size: 0.9rem;
-    padding: 0.5rem 1rem;
+  }
+  
+  .book-btn-horizontal {
+    padding: 0.3rem 0.5rem;
+    font-size: 0.7rem;
+    max-width: 50px;
+  }
+  
+  .flight-details-link {
+    font-size: 0.6rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .modern-flight-card-horizontal {
+    padding: 0.5rem !important;
+    gap: 0.3rem;
+    min-height: 55px;
+  }
+  
+  .flight-card-left {
+    gap: 0.3rem;
+  }
+  
+  .flight-card-right {
+    min-width: 45px;
+    max-width: 60px;
+  }
+  
+  .airline-logo {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .prominent-airline-name {
+    font-size: 0.75rem;
+  }
+  
+  .flight-number-prominent {
+    font-size: 0.6rem;
+  }
+  
+  .flight-times-row {
+    gap: 0.2rem;
+  }
+  
+  .flight-time {
+    font-size: 0.75rem;
+  }
+  
+  .flight-airport {
+    font-size: 0.6rem;
+  }
+  
+  .flight-duration {
+    font-size: 0.6rem;
+  }
+  
+  .flight-nonstop {
+    font-size: 0.55rem;
+  }
+  
+  .price-large .amount {
+    font-size: 0.85rem;
+  }
+  
+  .book-btn-horizontal {
+    padding: 0.25rem 0.4rem;
+    font-size: 0.65rem;
+    max-width: 45px;
+  }
+  
+  .flight-details-link {
+    font-size: 0.55rem;
   }
 }
 
@@ -933,84 +1324,7 @@ body {
   }
 }
 
-.flight-times-row-screenshot {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  margin-bottom: 0.5rem;
-}
 
-.flight-time-block-screenshot {
-  text-align: center;
-  flex: 1;
-  min-width: 0;
-}
-
-.flight-time-bold {
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: var(--text-primary);
-  margin-bottom: 0.25rem;
-}
-
-.flight-airport-bold {
-  font-size: 0.9rem;
-  color: var(--text-secondary);
-  font-weight: 500;
-}
-
-.flight-duration-block-screenshot {
-  text-align: center;
-  min-width: 80px;
-  position: relative;
-}
-
-.flight-duration-line {
-  height: 2px;
-  background: #e5e7eb;
-  margin: 0.5rem 0;
-  position: relative;
-}
-
-.flight-duration-bold {
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: var(--text-primary);
-  margin: 0.25rem 0;
-}
-
-.flight-nonstop-small {
-  font-size: 0.75rem;
-  color: var(--text-secondary);
-  margin-top: 0.125rem;
-}
-
-@media (max-width: 900px) {
-  .flight-times-row-screenshot {
-    gap: 0.5rem;
-  }
-  .flight-time-bold {
-    font-size: 1.1rem;
-  }
-  .flight-duration-block-screenshot {
-    min-width: 60px;
-  }
-}
-
-@media (max-width: 480px) {
-  .flight-times-row-screenshot {
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-  .flight-time-bold {
-    font-size: 1rem;
-  }
-  .flight-duration-block-screenshot {
-    min-width: 0;
-    width: 100%;
-  }
-}
 
 .airline-logo-row {
   display: flex;

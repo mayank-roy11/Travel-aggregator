@@ -582,13 +582,14 @@ const FlightCard = ({ result, formatPrice, onViewDetails, onBookingClick, isChea
         <div className="flight-direction-panel">
           <div className="flight-card modern-flight-card-horizontal">
             {isCheapest && <div className="cheapest-tag">Cheapest</div>}
-            {/* Left: Logo in its own column, vertically centered */}
-            <div className="flight-card-col flight-card-col-logo">
+            
+            {/* Left: Airline logo and info */}
+            <div className="flight-card-left">
               {logo && (
                 <img 
                   src={logo} 
                   alt={result.airline} 
-                  className="airline-logo prominent-airline-logo"
+                  className="airline-logo"
                   onError={(e) => {
                     // Fallback to local logo if TravelPayouts logo fails
                     if (airlineLogoUrl && e.target.src === airlineLogoUrl) {
@@ -597,37 +598,32 @@ const FlightCard = ({ result, formatPrice, onViewDetails, onBookingClick, isChea
                   }}
                 />
               )}
-            </div>
-            {/* Airline name and flight number stacked */}
-            <div className="flight-card-col flight-card-col-airline-info">
-              <div className="airline-name prominent-airline-name">{getAirlineName(result.airline)}</div>
-              <div className="flight-number-prominent">{result.onward.flightNumber}</div>
-            </div>
-            {/* Center: Times, duration, airports */}
-            <div className="flight-card-col flight-card-col-center">
-              <div className="flight-times-row-screenshot">
-                <div className="flight-time-block-screenshot">
-                  <div className="flight-time-bold">{onwardDep.time}</div>
-                  <div className="flight-airport-bold">{result.onward.origin}</div>
-                </div>
-                <div className="flight-duration-block-screenshot">
-                  <div className="flight-duration-line"></div>
-                  <div className="flight-duration-bold">{onwardDuration}</div>
-                  <div className="flight-nonstop-small">Non-stop</div>
-                  <div className="flight-duration-line"></div>
-                </div>
-                <div className="flight-time-block-screenshot">
-                  <div className="flight-time-bold">{onwardArr.time}</div>
-                  <div className="flight-airport-bold">{result.onward.destination}</div>
-                </div>
-              </div>
-              <div className="flight-date-row">
-                <div className="flight-date">{onwardDep.date}</div>
-                <div className="flight-date">{onwardArr.date}</div>
+              <div className="airline-info">
+                <div className="prominent-airline-name">{getAirlineName(result.airline)}</div>
+                <div className="flight-number-prominent">{result.onward.flightNumber}</div>
               </div>
             </div>
-            {/* Right: Individual flight price */}
-            <div className="flight-card-col flight-card-col-right">
+            
+            {/* Center: Flight times */}
+            <div className="flight-card-center">
+              <div className="flight-times-row">
+                <div className="flight-time-block">
+                  <div className="flight-time">{onwardDep.time}</div>
+                  <div className="flight-airport">{result.onward.origin}</div>
+                </div>
+                <div className="flight-duration-block">
+                  <div className="flight-duration">{onwardDuration}</div>
+                  <div className="flight-nonstop">Non-stop</div>
+                </div>
+                <div className="flight-time-block">
+                  <div className="flight-time">{onwardArr.time}</div>
+                  <div className="flight-airport">{result.onward.destination}</div>
+                </div>
+              </div>
+            </div>
+            
+            {/* Right: Price */}
+            <div className="flight-card-right">
               <div className="price price-large">
                 <span className="amount">{formatPrice(Math.round(result.price / 2), result.currency)}</span>
               </div>
@@ -639,13 +635,14 @@ const FlightCard = ({ result, formatPrice, onViewDetails, onBookingClick, isChea
         <div className="flight-direction-panel">
           <div className="flight-card modern-flight-card-horizontal">
             {isCheapest && <div className="cheapest-tag">Cheapest</div>}
-            {/* Left: Logo in its own column, vertically centered */}
-            <div className="flight-card-col flight-card-col-logo">
+            
+            {/* Left: Airline logo and info */}
+            <div className="flight-card-left">
               {logo && (
                 <img 
                   src={logo} 
                   alt={result.airline} 
-                  className="airline-logo prominent-airline-logo"
+                  className="airline-logo"
                   onError={(e) => {
                     // Fallback to local logo if TravelPayouts logo fails
                     if (airlineLogoUrl && e.target.src === airlineLogoUrl) {
@@ -654,37 +651,32 @@ const FlightCard = ({ result, formatPrice, onViewDetails, onBookingClick, isChea
                   }}
                 />
               )}
-            </div>
-            {/* Airline name and flight number stacked */}
-            <div className="flight-card-col flight-card-col-airline-info">
-              <div className="airline-name prominent-airline-name">{getAirlineName(result.airline)}</div>
-              <div className="flight-number-prominent">{result.return.flightNumber}</div>
-            </div>
-            {/* Center: Times, duration, airports */}
-            <div className="flight-card-col flight-card-col-center">
-              <div className="flight-times-row-screenshot">
-                <div className="flight-time-block-screenshot">
-                  <div className="flight-time-bold">{returnDep.time}</div>
-                  <div className="flight-airport-bold">{result.return.origin}</div>
-                </div>
-                <div className="flight-duration-block-screenshot">
-                  <div className="flight-duration-line"></div>
-                  <div className="flight-duration-bold">{returnDuration}</div>
-                  <div className="flight-nonstop-small">Non-stop</div>
-                  <div className="flight-duration-line"></div>
-                </div>
-                <div className="flight-time-block-screenshot">
-                  <div className="flight-time-bold">{returnArr.time}</div>
-                  <div className="flight-airport-bold">{result.return.destination}</div>
-                </div>
-              </div>
-              <div className="flight-date-row">
-                <div className="flight-date">{returnDep.date}</div>
-                <div className="flight-date">{returnArr.date}</div>
+              <div className="airline-info">
+                <div className="prominent-airline-name">{getAirlineName(result.airline)}</div>
+                <div className="flight-number-prominent">{result.return.flightNumber}</div>
               </div>
             </div>
-            {/* Right: Individual flight price */}
-            <div className="flight-card-col flight-card-col-right">
+            
+            {/* Center: Flight times */}
+            <div className="flight-card-center">
+              <div className="flight-times-row">
+                <div className="flight-time-block">
+                  <div className="flight-time">{returnDep.time}</div>
+                  <div className="flight-airport">{result.return.origin}</div>
+                </div>
+                <div className="flight-duration-block">
+                  <div className="flight-duration">{returnDuration}</div>
+                  <div className="flight-nonstop">Non-stop</div>
+                </div>
+                <div className="flight-time-block">
+                  <div className="flight-time">{returnArr.time}</div>
+                  <div className="flight-airport">{result.return.destination}</div>
+                </div>
+              </div>
+            </div>
+            
+            {/* Right: Price */}
+            <div className="flight-card-right">
               <div className="price price-large">
                 <span className="amount">{formatPrice(Math.round(result.price / 2), result.currency)}</span>
               </div>
@@ -705,13 +697,13 @@ const FlightCard = ({ result, formatPrice, onViewDetails, onBookingClick, isChea
       <div className="flight-card modern-flight-card-horizontal">
         {isCheapest && <div className="cheapest-tag">Cheapest</div>}
         
-        {/* Left: Logo in its own column, vertically centered */}
-        <div className="flight-card-col flight-card-col-logo">
+        {/* Left: Airline logo and info */}
+        <div className="flight-card-left">
           {logo && (
             <img 
               src={logo} 
               alt={result.airline} 
-              className="airline-logo prominent-airline-logo"
+              className="airline-logo"
               onError={(e) => {
                 // Fallback to local logo if TravelPayouts logo fails
                 if (airlineLogoUrl && e.target.src === airlineLogoUrl) {
@@ -720,37 +712,32 @@ const FlightCard = ({ result, formatPrice, onViewDetails, onBookingClick, isChea
               }}
             />
           )}
-        </div>
-        {/* Airline name and flight number stacked */}
-        <div className="flight-card-col flight-card-col-airline-info">
-          <div className="airline-name prominent-airline-name">{getAirlineName(result.airline)}</div>
-          <div className="flight-number-prominent">{result.flightNumber}</div>
-        </div>
-        {/* Center: Times, duration, airports */}
-        <div className="flight-card-col flight-card-col-center">
-          <div className="flight-times-row-screenshot">
-            <div className="flight-time-block-screenshot">
-              <div className="flight-time-bold">{dep.time}</div>
-              <div className="flight-airport-bold">{result.origin}</div>
-            </div>
-            <div className="flight-duration-block-screenshot">
-              <div className="flight-duration-line"></div>
-              <div className="flight-duration-bold">{duration}</div>
-              <div className="flight-nonstop-small">Non-stop</div>
-              <div className="flight-duration-line"></div>
-            </div>
-            <div className="flight-time-block-screenshot">
-              <div className="flight-time-bold">{arr.time}</div>
-              <div className="flight-airport-bold">{result.destination}</div>
-            </div>
-          </div>
-          <div className="flight-date-row">
-            <div className="flight-date">{dep.date}</div>
-            <div className="flight-date">{arr.date}</div>
+          <div className="airline-info">
+            <div className="prominent-airline-name">{getAirlineName(result.airline)}</div>
+            <div className="flight-number-prominent">{result.flightNumber}</div>
           </div>
         </div>
-        {/* Right: Price, Book button, Flight Details */}
-        <div className="flight-card-col flight-card-col-right">
+        
+        {/* Center: Flight times */}
+        <div className="flight-card-center">
+          <div className="flight-times-row">
+            <div className="flight-time-block">
+              <div className="flight-time">{dep.time}</div>
+              <div className="flight-airport">{result.origin}</div>
+            </div>
+            <div className="flight-duration-block">
+              <div className="flight-duration">{duration}</div>
+              <div className="flight-nonstop">Non-stop</div>
+            </div>
+            <div className="flight-time-block">
+              <div className="flight-time">{arr.time}</div>
+              <div className="flight-airport">{result.destination}</div>
+            </div>
+          </div>
+        </div>
+        
+        {/* Right: Price and book button */}
+        <div className="flight-card-right">
           <div className="price price-large">
             <span className="amount">{formatPrice(result.price, result.currency)}</span>
           </div>
@@ -766,10 +753,9 @@ const FlightCard = ({ result, formatPrice, onViewDetails, onBookingClick, isChea
               <span>Booking not available</span>
             </div>
           )}
-          <button className="flight-details-link" onClick={() => onViewDetails(result)}>
-            <span className="flight-details-arrow">&gt;</span>
-            Flight Details
-          </button>
+          <div className="flight-details-link" onClick={() => onViewDetails(result)}>
+            Flight Details &gt;
+          </div>
         </div>
       </div>
     );

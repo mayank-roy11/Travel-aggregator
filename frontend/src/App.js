@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
 import './App.css';
 import Home from './pages/Home';
@@ -24,6 +24,16 @@ const Logo = () => {
 };
 
 const Header = () => {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const toggleMobileMenu = () => {
+    setMobileMenuOpen(!mobileMenuOpen);
+  };
+
+  const closeMobileMenu = () => {
+    setMobileMenuOpen(false);
+  };
+
   return (
     <header className="App-header">
       <div className="header-content">
@@ -31,6 +41,23 @@ const Header = () => {
         <nav className="header-nav">
           <a href="/results">Flights</a>
         </nav>
+        <button className="mobile-menu-btn" onClick={toggleMobileMenu}>
+          ☰
+        </button>
+      </div>
+      
+      {/* Mobile Navigation */}
+      <div className={`mobile-nav ${mobileMenuOpen ? 'show' : ''}`}>
+        <div className="mobile-nav-content">
+          <div className="mobile-nav-header">
+            <Logo />
+            <button className="mobile-nav-close" onClick={closeMobileMenu}>
+              ✕
+            </button>
+          </div>
+          <a href="/" onClick={closeMobileMenu}>Home</a>
+          <a href="/results" onClick={closeMobileMenu}>Flights</a>
+        </div>
       </div>
     </header>
   );

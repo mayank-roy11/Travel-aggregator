@@ -193,11 +193,37 @@ const SearchForm = ({ onSearch }) => {
   const filterAirports = (searchTerm) => {
     if (!searchTerm) return [];
     const term = searchTerm.toLowerCase();
-    return popularAirports.filter(airport =>
-      airport.code.toLowerCase().includes(term) ||
-      airport.city.toLowerCase().includes(term) ||
-      airport.name.toLowerCase().includes(term)
-    ).slice(0, 10);
+    
+    return popularAirports
+      .map(airport => {
+        const code = airport.code.toLowerCase();
+        const city = airport.city.toLowerCase();
+        const name = airport.name.toLowerCase();
+        
+        // Calculate match score
+        let score = 0;
+        
+        // Exact matches get highest priority
+        if (code === term) score += 1000;
+        if (city === term) score += 1000;
+        if (name === term) score += 1000;
+        
+        // Matches that start with the term get high priority
+        if (code.startsWith(term)) score += 500;
+        if (city.startsWith(term)) score += 500;
+        if (name.startsWith(term)) score += 500;
+        
+        // Partial matches get lower priority
+        if (code.includes(term)) score += 100;
+        if (city.includes(term)) score += 100;
+        if (name.includes(term)) score += 100;
+        
+        return { ...airport, score };
+      })
+      .filter(airport => airport.score > 0)
+      .sort((a, b) => b.score - a.score)
+      .map(({ score, ...airport }) => airport)
+      .slice(0, 10);
   };
 
   const handleFromInputChange = (e) => {
