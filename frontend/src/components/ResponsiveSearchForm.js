@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import './SearchForm.css';
-import logoImage from '../assets/logo.png';
+import swapVert from '../assets/swap-vert-svgrepo-com.svg';
+import m from './ResponsiveSearchForm.mobile.module.css';
+import d from './ResponsiveSearchForm.desktop.module.css';
 
 // Popular airports data (Indian + International)
 const popularAirports = [
@@ -76,7 +78,7 @@ const popularAirports = [
   { code: 'JFK', city: 'New York', name: 'John F. Kennedy International Airport', country: 'USA' },
   { code: 'EWR', city: 'Newark', name: 'Newark Liberty International Airport', country: 'USA' },
   { code: 'LAX', city: 'Los Angeles', name: 'Los Angeles International Airport', country: 'USA' },
-  { code: 'ORD', city: 'Chicago', name: 'O\'Hare International Airport', country: 'USA' },
+  { code: 'ORD', city: 'Chicago', name: "O'Hare International Airport", country: 'USA' },
   { code: 'DFW', city: 'Dallas', name: 'Dallas/Fort Worth International Airport', country: 'USA' },
   { code: 'ATL', city: 'Atlanta', name: 'Hartsfield-Jackson Atlanta International Airport', country: 'USA' },
   { code: 'MIA', city: 'Miami', name: 'Miami International Airport', country: 'USA' },
@@ -159,25 +161,44 @@ const popularAirports = [
   { code: 'POA', city: 'Porto Alegre', name: 'Salgado Filho International Airport', country: 'Brazil' },
   { code: 'FLN', city: 'Florianópolis', name: 'Hercílio Luz International Airport', country: 'Brazil' },
   { code: 'CGR', city: 'Campo Grande', name: 'Campo Grande International Airport', country: 'Brazil' },
-  { code: 'CGB', city: 'Cuiabá', name: 'Marechal Rondon International Airport', country: 'Brazil' },
-  { code: 'BEL', city: 'Belém', name: 'Val de Cans International Airport', country: 'Brazil' },
-  { code: 'MAO', city: 'Manaus', name: 'Eduardo Gomes International Airport', country: 'Brazil' },
-  { code: 'FOR', city: 'Fortaleza', name: 'Pinto Martins International Airport', country: 'Brazil' },
-  { code: 'REC', city: 'Recife', name: 'Guararapes International Airport', country: 'Brazil' },
-  { code: 'NAT', city: 'Natal', name: 'Augusto Severo International Airport', country: 'Brazil' },
-  { code: 'JOI', city: 'Joinville', name: 'Joinville-Lauro Carneiro de Loyola Airport', country: 'Brazil' },
-  { code: 'CWB', city: 'Curitiba', name: 'Afonso Pena International Airport', country: 'Brazil' },
-  { code: 'POA', city: 'Porto Alegre', name: 'Salgado Filho International Airport', country: 'Brazil' },
-  { code: 'FLN', city: 'Florianópolis', name: 'Hercílio Luz International Airport', country: 'Brazil' },
-  { code: 'CGR', city: 'Campo Grande', name: 'Campo Grande International Airport', country: 'Brazil' },
   { code: 'CGB', city: 'Cuiabá', name: 'Marechal Rondon International Airport', country: 'Brazil' }
 ];
 
-const SearchForm = ({ onSearch }) => {
+// Helper to get today's local date in YYYY-MM-DD
+const todayLocal = () => {
+  const now = new Date();
+  const tzOffsetMs = now.getTimezoneOffset() * 60000;
+  return new Date(now.getTime() - tzOffsetMs).toISOString().split('T')[0];
+};
+
+const ResponsiveSearchForm = ({ onSearch }) => {
+  // Track mobile viewport to stabilize inline mobile-only styles
+  const [isMobile, setIsMobile] = useState(() => {
+    if (typeof window === 'undefined') return false;
+    return window.matchMedia('(max-width: 768px)').matches;
+  });
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const mql = window.matchMedia('(max-width: 768px)');
+    const handler = (e) => setIsMobile(e.matches);
+    if (mql.addEventListener) {
+      mql.addEventListener('change', handler);
+    } else {
+      // Safari/older
+      mql.addListener(handler);
+    }
+    return () => {
+      if (mql.removeEventListener) {
+        mql.removeEventListener('change', handler);
+      } else {
+        mql.removeListener(handler);
+      }
+    };
+  }, []);
   const [formData, setFormData] = useState({
     from: '',
     to: '',
-    date: '',
+    date: todayLocal(),
     return_date: '',
     adults: '1',
     tripType: 'one-way'
@@ -187,6 +208,7 @@ const SearchForm = ({ onSearch }) => {
   const [toSuggestions, setToSuggestions] = useState([]);
   const [showFromDropdown, setShowFromDropdown] = useState(false);
   const [showToDropdown, setShowToDropdown] = useState(false);
+
   const fromInputRef = useRef(null);
   const toInputRef = useRef(null);
 
@@ -266,6 +288,10 @@ const SearchForm = ({ onSearch }) => {
     setShowToDropdown(false);
   };
 
+  const handleSwap = () => {
+    setFormData(prev => ({ ...prev, from: prev.to, to: prev.from }));
+  };
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (fromInputRef.current && !fromInputRef.current.contains(event.target)) {
@@ -304,36 +330,36 @@ const SearchForm = ({ onSearch }) => {
   };
 
   return (
-    <div className="search-form-container">
+    <div className={`${m.root} ${d.root} search-form-container`}>
       {/* Hero Text Section */}
-      <div className="hero-text-section">
-        <h1 className="hero-title">Find & Book Your Perfect Trip</h1>
-        <p className="hero-subtitle">Compare prices from hundreds of travel sites and book flights, hotels, and cars at the best rates</p>
+      <div className={`${m.heroTextSection} ${d.heroTextSection} hero-text-section`}>
+        <h1 className={`${m.heroTitle} ${d.heroTitle} hero-title`}>Find & Book Your Perfect Trip</h1>
+        <p className={`${m.heroSubtitle} ${d.heroSubtitle} hero-subtitle`}>Compare prices from hundreds of travel sites and book flights, hotels, and cars at the best rates</p>
       </div>
 
-
-      <form onSubmit={handleSubmit} className="search-form">
-        <div className="trip-type-selector">
-          <button
-            type="button"
-            className={`trip-type-btn ${formData.tripType === 'one-way' ? 'active' : ''}`}
-            onClick={() => handleTripTypeChange('one-way')}
+      <form onSubmit={handleSubmit} className={`${m.form} ${d.form} search-form`}>
+        <div className={`${m.tripTypeSelector} ${d.tripTypeSelector} trip-type-selector`}>
+          <select
+            id="tripType"
+            className={`${d.tripTypeDropdown} trip-type-dropdown`}
+            value={formData.tripType}
+            onChange={(e) => handleTripTypeChange(e.target.value)}
+            aria-label="Trip type"
           >
-            One Way
-          </button>
-          <button
-            type="button"
-            className={`trip-type-btn ${formData.tripType === 'round-trip' ? 'active' : ''}`}
-            onClick={() => handleTripTypeChange('round-trip')}
-          >
-            Round Trip
-          </button>
+            <option value="one-way">One way</option>
+            <option value="round-trip">Round trip</option>
+          </select>
         </div>
 
-        <div className="form-row">
-          <div className="form-group">
-            <label htmlFor="from">From</label>
-            <div className="input-container" ref={fromInputRef}>
+        <div className={`${m.formRow} ${d.formRow} ${m.mobileCard} ${d.mobileCard} form-row mobile-card`}>
+          <div className={`${m.formGroup} ${d.formGroup} form-group`}>
+            <div className={`${m.inputContainer} ${d.inputContainer} input-container input-with-icon`} ref={fromInputRef}>
+              <span className={`${m.fieldLabel} ${d.fieldLabel} field-label`}>FROM</span>
+              <span className={`${m.inputIcon} ${d.inputIcon} input-icon from-icon`} aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="9" cy="9" r="6.5" stroke="#6b7280" strokeWidth="1.5" fill="none" />
+                </svg>
+              </span>
               <input
                 type="text"
                 id="from"
@@ -345,36 +371,56 @@ const SearchForm = ({ onSearch }) => {
                 autoComplete="off"
               />
               {showFromDropdown && (
-                <div className="airport-dropdown">
-                  <div className="dropdown-header">
+                <div className={`${m.airportDropdown} ${d.airportDropdown} airport-dropdown`}>
+                  <div className={`${m.dropdownHeader} ${d.dropdownHeader} dropdown-header`}>
                     <h4>Popular Airports</h4>
                   </div>
                   {fromSuggestions.length > 0 ? (
                     fromSuggestions.map((airport, index) => (
                       <div
                         key={airport.code}
-                        className="airport-option"
+                        className={`${m.airportOption} ${d.airportOption} airport-option`}
                         onClick={() => handleFromSelect(airport)}
                       >
-                        <div className="airport-code">{airport.code}</div>
-                        <div className="airport-details">
-                          <div className="airport-city">{airport.city}</div>
-                          <div className="airport-name">{airport.name}</div>
-                          {airport.country && <div className="airport-country">{airport.country}</div>}
+                        <div className={`${m.airportCode} ${d.airportCode} airport-code`}>{airport.code}</div>
+                        <div className={`${m.airportDetails} ${d.airportDetails} airport-details`}>
+                          <div className={`${m.airportCity} ${d.airportCity} airport-city`}>{airport.city}</div>
+                          <div className={`${m.airportName} ${d.airportName} airport-name`}>{airport.name}</div>
+                          {airport.country && <div className={`${m.airportCountry} ${d.airportCountry} airport-country`}>{airport.country}</div>}
                         </div>
                       </div>
                     ))
                   ) : (
-                    <div className="no-results">No airports found</div>
+                    <div className={`${m.noResults} ${d.noResults} no-results`}>No airports found</div>
                   )}
                 </div>
               )}
             </div>
           </div>
 
-          <div className="form-group">
-            <label htmlFor="to">To</label>
-            <div className="input-container" ref={toInputRef}>
+          <div
+            className={`${m.swapCenter} ${d.swapCenter} swap-center`}
+          >
+            <button
+              type="button"
+              className={`${m.swapButton} ${m.swapMobilePinned} ${d.swapButton} swap-button`}
+              onClick={handleSwap}
+              aria-label="Swap From and To"
+              style={isMobile ? { position: 'absolute', right: 28, top: '50%', transform: 'translateY(-50%)', zIndex: 2 } : undefined}
+            >
+              <img src={swapVert} className={`${m.swapIcon} ${d.swapIcon} swap-icon`} width="18" height="18" alt="" aria-hidden="true" />
+            </button>
+          </div>
+
+          <div className={`${m.formGroup} ${d.formGroup} form-group`}>
+            <div className={`${m.inputContainer} ${d.inputContainer} input-container input-with-icon`} ref={toInputRef}>
+              <span className={`${m.fieldLabel} ${d.fieldLabel} field-label`}>TO</span>
+              <span className={`${m.inputIcon} ${d.inputIcon} input-icon to-icon`} aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M12 21s-7-6.48-7-11a7 7 0 1114 0c0 4.52-7 11-7 11z" stroke="#6b7280" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
+                  <circle cx="12" cy="10" r="2.5" stroke="#6b7280" strokeWidth="1.5" fill="none" />
+                </svg>
+              </span>
               <input
                 type="text"
                 id="to"
@@ -386,27 +432,27 @@ const SearchForm = ({ onSearch }) => {
                 autoComplete="off"
               />
               {showToDropdown && (
-                <div className="airport-dropdown">
-                  <div className="dropdown-header">
+                <div className={`${m.airportDropdown} ${d.airportDropdown} airport-dropdown`}>
+                  <div className={`${m.dropdownHeader} ${d.dropdownHeader} dropdown-header`}>
                     <h4>Popular Airports</h4>
                   </div>
                   {toSuggestions.length > 0 ? (
                     toSuggestions.map((airport, index) => (
                       <div
                         key={airport.code}
-                        className="airport-option"
+                        className={`${m.airportOption} ${d.airportOption} airport-option`}
                         onClick={() => handleToSelect(airport)}
                       >
-                        <div className="airport-code">{airport.code}</div>
-                        <div className="airport-details">
-                          <div className="airport-city">{airport.city}</div>
-                          <div className="airport-name">{airport.name}</div>
-                          {airport.country && <div className="airport-country">{airport.country}</div>}
+                        <div className={`${m.airportCode} ${d.airportCode} airport-code`}>{airport.code}</div>
+                        <div className={`${m.airportDetails} ${d.airportDetails} airport-details`}>
+                          <div className={`${m.airportCity} ${d.airportCity} airport-city`}>{airport.city}</div>
+                          <div className={`${m.airportName} ${d.airportName} airport-name`}>{airport.name}</div>
+                          {airport.country && <div className={`${m.airportCountry} ${d.airportCountry} airport-country`}>{airport.country}</div>}
                         </div>
                       </div>
                     ))
                   ) : (
-                    <div className="no-results">No airports found</div>
+                    <div className={`${m.noResults} ${d.noResults} no-results`}>No airports found</div>
                   )}
                 </div>
               )}
@@ -414,56 +460,62 @@ const SearchForm = ({ onSearch }) => {
           </div>
         </div>
 
-        <div className="form-row">
-          <div className="form-group">
-            <label htmlFor="date">Departure Date</label>
-            <input
-              type="date"
-              id="date"
-              name="date"
-              value={formData.date}
-              onChange={handleInputChange}
-              required
-            />
-          </div>
-
-          {formData.tripType === 'round-trip' && (
-            <div className="form-group">
-              <label htmlFor="return_date">Return Date</label>
+        <div className={`${m.formRow} ${d.formRow} ${m.mobileSubcard} ${d.mobileSubcard} form-row mobile-subcard`}>
+          <div className={`${m.formGroup} ${d.formGroup} form-group`}>
+            <div className={`${m.inputContainer} ${d.inputContainer} input-container`}>
+              <span className={`${m.fieldLabel} ${d.fieldLabel} field-label`}>DEPARTURE</span>
               <input
                 type="date"
-                id="return_date"
-                name="return_date"
-                value={formData.return_date}
+                id="date"
+                name="date"
+                value={formData.date}
                 onChange={handleInputChange}
                 required
               />
             </div>
+          </div>
+
+          {formData.tripType === 'round-trip' && (
+            <div className={`${m.formGroup} ${d.formGroup} form-group`}>
+              <div className={`${m.inputContainer} ${d.inputContainer} input-container`}>
+                <span className={`${m.fieldLabel} ${d.fieldLabel} field-label`}>RETURN</span>
+                <input
+                  type="date"
+                  id="return_date"
+                  name="return_date"
+                  value={formData.return_date}
+                  onChange={handleInputChange}
+                  required
+                  disabled={formData.tripType !== 'round-trip'}
+                />
+              </div>
+            </div>
           )}
 
-          <div className="form-group">
-            <label htmlFor="adults">Passengers</label>
-            <select
-              id="adults"
-              name="adults"
-              value={formData.adults}
-              onChange={handleInputChange}
-            >
-              {[1, 2, 3, 4, 5, 6, 7, 8, 9].map(num => (
-                <option key={num} value={num}>
-                  {num} {num === 1 ? 'Passenger' : 'Passengers'}
-                </option>
-              ))}
-            </select>
+          <div className={`${m.formGroup} ${d.formGroup} form-group`}>
+            <div className={`${m.inputContainer} ${d.inputContainer} input-container`}>
+              <span className={`${m.fieldLabel} ${d.fieldLabel} field-label`}>PASSENGERS</span>
+              <select
+                id="adults"
+                name="adults"
+                value={formData.adults}
+                onChange={handleInputChange}
+              >
+                {[1, 2, 3, 4, 5, 6, 7, 8, 9].map(num => (
+                  <option key={num} value={num}>
+                    {num} {num === 1 ? 'Passenger' : 'Passengers'}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
+          <button type="submit" className={`${m.searchBtn} ${d.searchBtn} search-btn`}>
+            Search Flights
+          </button>
         </div>
-
-        <button type="submit" className="search-btn">
-          Search Flights
-        </button>
       </form>
     </div>
   );
 };
 
-export default SearchForm; 
+export default ResponsiveSearchForm;

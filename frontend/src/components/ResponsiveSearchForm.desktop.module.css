@@ -1,0 +1,157 @@
+/* Desktop-only overrides for ResponsiveSearchForm */
+
+@media (min-width: 768px) {
+  /* marker classes so JSX can reference d.mobileCard / d.mobileSubcard */
+  .mobileCard { --desktop-row: 1; }
+  .mobileSubcard { --desktop-row: 2; }
+  .root {
+    /* allow full-width bar like legacy desktop */
+    max-width: none;
+    padding: 0;
+    width: 100%;
+  }
+  .form {
+    /* Desktop: single-row unified grid for all controls */
+    display: grid;
+    grid-template-columns: 1fr auto 1fr 1fr 1fr auto; /* FROM | swap | TO | DATE | PAX | BUTTON */
+    align-items: center;
+    column-gap: 1rem;
+    row-gap: 0.25rem; /* tighter space between dropdown and FROM */
+    width: 100%;
+  }
+  .heroTextSection {
+    /* consistent spacing on desktop */
+    margin-bottom: 1rem;
+    padding: 1rem 0 0.5rem 0;
+  }
+  .heroTitle {
+    font-size: 1.75rem;
+    line-height: 1.2;
+  }
+  .heroSubtitle {
+    font-size: 0.9rem;
+    line-height: 1.4;
+  }
+  /* Place trip-type neatly above FROM column (left aligned, compact) */
+  .tripTypeSelector {
+    grid-column: 1 / 2; /* align with FROM column */
+    justify-self: start;
+    align-self: end;
+    margin: 0 0 2px 0; /* minimal gap */
+    padding: 0;
+    width: max-content; /* prevent extra width adding whitespace */
+  }
+  /* Remove white background bar from legacy global container on desktop */
+  :global(.trip-type-selector) {
+    background: transparent !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+  }
+  :global(.trip-type-selector .trip-type-btn) { display: none !important; }
+  .tripTypeDropdown {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    padding: 6px 26px 6px 10px; /* tighter left/right */
+    border: 1.5px solid #e5e7eb;
+    border-radius: 10px;
+    background-color: #0f223f; /* match dark header area per screenshot */
+    color: #e5e7eb;
+    font-weight: 600;
+    line-height: 1.2;
+    cursor: pointer;
+    position: relative;
+    background-image: url("data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 20 20' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M5 7l5 5 5-5' stroke='%23cbd5e1' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 16px 16px;
+    box-shadow: 0 0 0 rgba(0,0,0,0);
+    transition: box-shadow 0.15s ease, border-color 0.15s ease;
+  }
+  .tripTypeDropdown:hover { box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
+  .tripTypeDropdown:focus {
+    outline: none;
+    border-color: #60a5fa;
+    box-shadow: 0 0 0 3px rgba(59,130,246,0.25);
+  }
+  /* Flatten row wrappers so children become grid items of .form */
+  .formRow { display: contents !important; }
+  .root .form .formRow { display: contents !important; }
+
+  /* Keep legacy container override only for width constraints */
+  .formGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+  .inputContainer { position: relative; }
+  .inputContainer input {
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    transition: border-color 0.2s ease;
+    background: white;
+  }
+  .inputContainer input:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  }
+  .inputContainer input::placeholder { color: #9ca3af; }
+  .fieldLabel {
+    position: absolute;
+    top: 6px;
+    left: 16px;
+    font-size: 10px;
+    line-height: 1;
+    letter-spacing: .04em;
+    color: #64748b;
+    font-weight: 700;
+    text-transform: uppercase;
+    pointer-events: none;
+  }
+  .inputIcon { left: 10px; top: 50%; transform: translateY(-10px); position: absolute; pointer-events: none; }
+  .airportDropdown {
+    position: absolute;
+    top: 100%; left: 0; right: 0;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+    border-radius: 10px;
+    margin-top: 6px;
+    z-index: 1000;
+    max-height: 320px;
+    overflow-y: auto;
+  }
+  .dropdownHeader { padding: 1rem; border-bottom: 1px solid #f3f4f6; background: #f9fafb; }
+  .airportOption { display: flex; align-items: center; gap: 1rem; padding: 1rem; cursor: pointer; transition: background-color 0.2s ease; border-bottom: 1px solid #f3f4f6; }
+  .airportOption:last-child { border-bottom: none; }
+  .airportOption:hover { background: #f9fafb; }
+  .airportCode { font-weight: 700; font-size: 1.125rem; color: #1f2937; min-width: 60px; text-align: center; background: #3b82f6; color: white; padding: 0.25rem 0.5rem; border-radius: 4px; }
+  .airportDetails { flex: 1; display: flex; flex-direction: column; gap: 0.25rem; }
+  .airportCity { font-weight: 600; color: #1f2937; font-size: 0.875rem; }
+  .airportName { color: #6b7280; font-size: 0.75rem; line-height: 1.2; }
+  .airportCountry { color: #9ca3af; font-size: 0.75rem; font-style: italic; }
+  .noResults { padding: 1rem; text-align: center; color: #6b7280; font-style: italic; }
+  .swapCenter { display: flex; align-items: center; justify-content: center; position: relative; margin-left: -14px; margin-right: -14px; }
+  .swapCenter::before { content: ''; position: absolute; top: 4px; bottom: 4px; left: 50%; width: 1px; background: #2b3a55; transform: translateX(-50%); z-index: 1; }
+  .swapButton { background: #fff; border: 2px solid #2b3a55; border-radius: 50%; width: 34px; height: 34px; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); box-shadow: 0 6px 16px rgba(0,0,0,0.12); z-index: 3; }
+  .swapIcon { display: block; width: 16px; height: 16px; transform: rotate(90deg); }
+  .searchBtn { background: linear-gradient(135deg, #3b82f6, #1d4ed8); color: white; border: none; padding: 0.7rem 1.25rem; border-radius: 8px; font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease; text-transform: uppercase; letter-spacing: 0.05em; }
+  .searchBtn:hover { background: linear-gradient(135deg, #2563eb, #1e40af); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3); }
+
+  /* Optional: ensure submit button stays last column */
+  .searchBtn { justify-self: end; }
+
+  /* Override legacy global container constraints */
+  :global(.search-form-container) {
+    max-width: none !important;
+    width: 100% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+  .tripTypeSelector { width: 100%; }
+}

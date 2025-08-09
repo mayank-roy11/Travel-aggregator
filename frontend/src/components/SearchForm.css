@@ -1,3 +1,35 @@
+/* --- ResponsiveSearchForm: force mobile swap/button layout overrides --- */
+@media (max-width: 768px) {
+  /* Ensure from/to card is the positioning context */
+  .search-form .form-row.mobile-card,
+  .form-row.mobile-card {
+    position: relative !important;
+  }
+
+  /* Pin swap wrapper/button to the right, vertically centered */
+  .search-form .form-row.mobile-card .swap-center,
+  .form-row.mobile-card .swap-center,
+  .search-form .form-row.mobile-card .swap-button,
+  .form-row.mobile-card .swap-button {
+    position: absolute !important;
+    right: 28px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    z-index: 2 !important;
+    margin: 0 !important;
+  }
+
+  /* Slim full-width submit button when shown inside the subcard row */
+  .search-form .form-row.mobile-subcard .search-btn,
+  .form-row.mobile-subcard .search-btn {
+    width: 100% !important;
+    height: 36px !important;
+    font-size: 0.85rem !important;
+    border-radius: 12px !important;
+    padding: 0 0.8rem !important;
+    margin-top: 1.1rem !important;
+  }
+}
 /* Hero Text Section */
 .hero-text-section {
   text-align: center;
@@ -149,14 +181,14 @@
   top: 100%;
   left: 0;
   right: 0;
-  background: white;
+  background: #ffffff;
   border: 1px solid #e5e7eb;
-  border-radius: 8px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-  z-index: 1000;
-  max-height: 300px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+  border-radius: 10px;
+  margin-top: 6px;
+  z-index: 1000; /* above swap button and cards */
+  max-height: 280px;
   overflow-y: auto;
-  margin-top: 0.25rem;
 }
 
 .dropdown-header {
@@ -283,12 +315,166 @@
   box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
 }
 
+/* Hero-section overrides: render SearchForm directly on hero without container chrome */
+.hero-section .search-form-container {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  max-width: none !important;
+  width: 100% !important;
+  margin: 0 auto;
+}
+
+.hero-section .search-form {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+}
+
+/* Optional: tighten spacing inside hero */
+.hero-section .search-form-container .form-row {
+  margin: 0 0 12px 0;
+}
+
+/* Ensure mobile cards remain white on dark hero backgrounds */
+@media (max-width: 768px) {
+  .hero-section .mobile-card,
+  .hero-section .mobile-subcard {
+    background: #fff;
+  }
+}
+
+/* Improve hero heading contrast inside hero section */
+.hero-section .hero-title {
+  color: #ffffff !important;
+  opacity: 1 !important;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+}
+
+.hero-section .hero-subtitle {
+  font-size: 0.75rem !important; 
+  color: #ffffff !important;
+  opacity: 1 !important;/* smaller by default on hero */
+}
+
+@media (max-width: 768px) {
+  .hero-section .hero-subtitle {
+    font-size: 0.75rem !important;
+    color: #ffffff !important;
+    opacity: 1 !important; /* extra small on mobile hero */
+  }
+}
+
+/* Reduce vertical rhythm for the form only inside hero */
+.hero-section .search-form {
+  gap: 0.5rem; /* was 1rem */
+}
+
+.hero-section .search-form-container .form-row {
+  margin: 6px 0; /* tighter rows */
+  gap: 0.5rem;   /* narrower gap between columns */
+}
+
+.hero-section .form-group {
+  gap: 0.25rem; /* tighten label/input spacing */
+}
+
+.hero-section .input-container input,
+.hero-section .form-group input[type="date"],
+.hero-section .form-group select {
+  padding: 0.5rem 0.6rem; /* slightly smaller paddings */
+}
+
+/* Tighter trip type selector spacing inside hero */
+.hero-section .trip-type-selector {
+  margin-bottom: 0.5rem;
+  padding: 0.15rem;
+}
+
+/* Tighter search button in hero */
+.hero-section .search-btn {
+  padding: 0.6rem 1rem;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+  .hero-section .hero-title { font-size: 1.2rem !important; }
+  .hero-section .hero-subtitle { font-size: 0.65rem !important; }
+  .hero-section .search-form-logo { height: 48px; }
+  .hero-section .mobile-card .input-container,
+  .hero-section .mobile-subcard .form-group .input-container { padding: 0.65rem 0.85rem; }
+  .hero-section .search-btn { padding: 0.55rem 0.9rem; font-size: 0.85rem; }
+}
+
+/* Date & Passengers: make boxes more compact */
+/* General (desktop/tablet) */
+.form-row .form-group .input-container input[type="date"],
+.form-row .form-group select {
+  padding-top: 0.48rem;
+  padding-bottom: 0.48rem;
+}
+
+/* Mobile two-column card */
+.mobile-subcard {
+  border-radius: 10px;
+}
+.mobile-subcard .form-group .input-container {
+  padding: 0.6rem 0.85rem; /* was ~0.875rem 1rem */
+}
+.mobile-subcard .form-group .input-container input[type="date"],
+.mobile-subcard .form-group .input-container .react-datepicker-wrapper,
+.mobile-subcard .form-group .input-container .react-datepicker__input-container input,
+.mobile-subcard .form-group select {
+  padding: 0.4rem 0.5rem !important;
+  font-size: 0.9rem !important;
+}
+
+/* Tighten calendar icon cell if any */
+.mobile-subcard .calendar-icon,
+.mobile-subcard .passenger-icon {
+  width: 18px;
+  height: 18px;
+}
+
+@media (max-width: 768px) {
+  /* Ensure tighter height on small screens */
+  .form-row.mobile-subcard .form-group .input-container {
+    padding: 0.55rem 0.8rem;
+  }
+  .form-row.mobile-subcard .form-group .input-container input[type="date"],
+  .form-row.mobile-subcard .form-group select {
+    padding: 0.38rem 0.5rem !important;
+    font-size: 0.88rem !important;
+  }
+}
+
+/* Ultra-compact Date & Passengers */
+/* Remove outer padding and shrink controls */
+.form-row.mobile-subcard .form-group .input-container {
+  padding: 0 !important; /* remove outer padding */
+}
+.form-row.mobile-subcard .form-group input[type="date"],
+.form-row.mobile-subcard .form-group select {
+  padding: 0.34rem 0.5rem !important; /* slimmer height */
+  font-size: 0.86rem !important;
+}
+
+/* Slightly slimmer on larger screens too, but keep readability */
+.form-row .form-group .input-container input[type="date"],
+.form-row .form-group select {
+  padding-top: 0.48rem;
+  padding-bottom: 0.48rem;
+}
+
 /* Mobile-First Responsive Design */
 @media (max-width: 768px) {
   .search-form-container {
     margin: 0.5rem;
     padding: 1rem;
-    border-radius: 12px;
   }
   
   .hero-title {
@@ -297,7 +483,7 @@
   }
   
   .hero-subtitle {
-    font-size: 0.85rem;
+    font-size: 0.5rem;
     max-width: 100%;
   }
   
@@ -305,96 +491,16 @@
     height: 60px;
   }
   
-  .form-row {
-    grid-template-columns: 1fr;
-    gap: 1rem;
-  }
-  
-  .form-row:first-of-type {
-    grid-template-columns: 1fr;
-  }
-  
-  .form-row:first-of-type .form-group {
-    position: relative;
-  }
-  
-  .form-row:not(:first-of-type) {
-    grid-template-columns: 1fr;
-  }
-  
-  .form-group {
-    gap: 0.5rem;
-  }
-  
-  .form-group label {
-    font-size: 0.75rem;
-  }
-  
-  .input-container input {
-    padding: 0.75rem 1rem;
-    font-size: 1rem;
-  }
-  
   .airport-dropdown {
     max-height: 250px;
   }
   
   .airport-option {
-    padding: 1rem;
+    padding: 0.75rem;
   }
   
   .airport-code {
     min-width: 50px;
-    font-size: 0.9rem;
-    padding: 0.2rem 0.4rem;
-  }
-  
-  .search-btn {
-    padding: 1rem 1.5rem;
-    font-size: 1rem;
-    width: 100%;
-  }
-  
-  .trip-type-selector {
-    gap: 0.25rem;
-    padding: 0.2rem;
-  }
-  
-  .trip-type-btn {
-    padding: 0.75rem 0.5rem;
-    font-size: 0.9rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .search-form-container {
-    margin: 0.25rem;
-    padding: 0.75rem;
-  }
-  
-  .hero-title {
-    font-size: 1.25rem;
-    margin-bottom: 0.5rem;
-  }
-  
-  .hero-subtitle {
-    font-size: 0.75rem;
-  }
-  
-  .search-form-logo {
-    height: 50px;
-  }
-  
-  .airport-dropdown {
-    max-height: 200px;
-  }
-  
-  .airport-option {
-    padding: 0.75rem;
-  }
-  
-  .airport-code {
-    min-width: 45px;
     font-size: 0.8rem;
   }
   
@@ -408,4 +514,505 @@
     padding: 0.75rem 0.875rem;
     font-size: 0.9rem;
   }
-} 
+}
+
+/* Fake placeholder support for native date inputs */
+.input-container.with-fake-placeholder {
+  position: relative;
+}
+.input-container.with-fake-placeholder .input-placeholder {
+  position: absolute;
+  left: 0.75rem; /* align with normal input text */
+  top: 50%;
+  transform: translateY(-50%);
+  color: #9ca3af;
+  font-size: 0.95rem;
+  pointer-events: none; /* clicks go to the input */
+  white-space: nowrap;
+}
+
+/* Ensure date inputs look like others */
+.input-container.with-fake-placeholder input[type="date"] {
+  background: transparent;
+}
+
+@media (max-width: 768px) {
+  .airport-dropdown { max-height: 240px; }
+}
+
+/* ==========================
+   Desktop-only Skyscanner row
+   ========================== */
+@media (min-width: 769px) {
+  .search-form {
+    display: grid; /* one line */
+    grid-template-columns: 1fr 20px 1fr 1fr 1fr auto; /* even tighter swap column */
+    column-gap: 0;
+    align-items: center;
+    overflow: visible;
+  }
+
+  /* Keep search a consistent fixed width */
+  .search-form .search-btn { min-width: 136px; }
+
+  /* Make row wrappers pass their children to the grid */
+  .search-form .form-row.mobile-card,
+  .search-form .form-row.mobile-subcard {
+    display: contents;
+  }
+
+  /* Keep the trip-type selector on its own row */
+  .search-form .trip-type-selector {
+    grid-column: 1 / -1;
+    margin-bottom: 6px;
+  }
+
+  /* Ensure the submit button occupies the last column and aligns visually */
+  .search-form .search-btn {
+    grid-column: 6;               /* ensure it sits in last col */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 56px;                 /* match larger pill height */
+    min-width: 136px;
+    line-height: 1;
+    padding: 0 20px;
+    border-radius: 12px;
+    background: #2164f3;
+    color: #fff;
+    border: none;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+    box-sizing: border-box;
+    align-self: center;           /* vertical alignment in grid */
+    margin-left: 12px;            /* small gap from last segment */
+  }
+
+  .search-form .search-btn:hover { background: #1b55d8; }
+
+  /* Make each segment a fixed-height pill cell */
+  .search-form .form-group .input-container {
+    position: relative;
+    background: #ffffff;          /* force white boxes */
+    border: 1px solid #e5e7eb;    /* light border around segments */
+    height: 56px;                 /* uniform height */
+    padding: 18px 16px 10px 16px; /* top room for label */
+    display: flex;                /* vertically center inner controls */
+    align-items: center;
+    box-sizing: border-box;
+  }
+
+  /* Normalize inner controls so container defines the look */
+  @media (min-width: 769px) {
+    .search-form .form-group input[type="text"],
+    .search-form .form-group input[type="date"],
+    .search-form .form-group select {
+      width: 100%;
+      height: 1.5rem; /* visual line height under the label */
+      border: 0;                    /* remove double borders */
+      background: transparent;
+      box-shadow: none;
+      padding: 0;                   /* container handles padding */
+      margin: 0;
+      line-height: 1.2;             /* text centering without inflating height */
+      box-sizing: border-box;
+    }
+  
+    /* Keep left padding for iconized inputs only */
+    .search-form .input-with-icon input {
+      padding-left: 36px !important; /* room for leading icon */
+    }
+  
+    /* Make select caret area not increase height inconsistently */
+    .search-form .form-group select {
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      background-image: none; /* keep native or custom separately if desired */
+    }
+  }
+
+  /* Small caption label inside the box (top-left) */
+  .search-form .field-label {
+    position: absolute;
+    top: 6px;
+    left: 16px;
+    font-size: 10px;
+    line-height: 1;
+    letter-spacing: .04em;
+    color: #64748b; /* slate-500 */
+    font-weight: 700;
+    text-transform: uppercase;
+    pointer-events: none;
+  }
+
+  /* Iconized inputs need left space; align caption with icon too */
+  .search-form .input-with-icon .field-label { left: 36px; }
+
+  /* Swap overlap + divider (closer fields) */
+  .search-form .swap-center { position: relative; margin-left: -14px; margin-right: -14px; } /* stronger overlap */
+  .search-form .swap-center::before {
+    content: '';
+    position: absolute;
+    top: 4px; /* taller divider */
+    bottom: 4px;
+    left: 50%;
+    width: 1px;
+    background: #2b3a55;
+    transform: translateX(-50%);
+    z-index: 1;
+  }
+  .search-form .swap-button {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 34px; /* overlap more */
+    height: 34px;
+    border-radius: 9999px;
+    background: #fff;
+    border: 2px solid #2b3a55; /* dark ring */
+    box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+    z-index: 3; /* ensure above neighbors */
+  }
+  .search-form .swap-button .swap-icon { width: 16px; height: 16px; transform: rotate(90deg); }
+
+  /* Labels style (small, muted) */
+  .search-form .form-group > label {
+    font-size: 11px;
+    color: #94a3b8;
+    margin-bottom: 6px;
+    font-weight: 600;
+  }
+
+  /* Input text size and compact vertical rhythm */
+  .search-form .form-group input[type="text"],
+  .search-form .form-group input[type="date"],
+  .search-form .form-group select {
+    padding-top: 0.44rem;
+    padding-bottom: 0.44rem;
+    font-size: 14px;
+  }
+
+  /* Align date text baseline with other fields inside larger pill */
+  .search-form .form-group input[type="date"] {
+    height: 1.5rem;
+    line-height: 1.5rem;
+    padding: 0;
+    position: relative;
+    top: 1px; /* subtle nudge to match text baseline */
+  }
+  /* WebKit date input extra paddings */
+  .search-form .form-group input[type="date"]::-webkit-datetime-edit,
+  .search-form .form-group input[type="date"]::-webkit-datetime-edit-fields-wrapper,
+  .search-form .form-group input[type="date"]::-webkit-datetime-edit-text,
+  .search-form .form-group input[type="date"]::-webkit-datetime-edit-month-field,
+  .search-form .form-group input[type="date"]::-webkit-datetime-edit-day-field,
+  .search-form .form-group input[type="date"]::-webkit-datetime-edit-year-field {
+    padding: 0;
+    line-height: 1.5rem;
+  }
+}
+
+/* --- Restore MOBILE layout explicitly (won't affect desktop) --- */
+@media (max-width: 768px) {
+  /* Hide desktop in-box labels on mobile */
+  .form-row.mobile-card .field-label,
+  .form-row.mobile-subcard .field-label { display: none !important; }
+
+  /* From/To card container */
+  .form-row.mobile-card {
+    display: block !important;
+    position: relative;
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+    overflow: visible;
+    padding: 0;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+  }
+
+  /* Flatten inner input containers (no inner boxes) */
+  .form-row.mobile-card .input-container {
+    background: transparent !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    padding: 0.9rem 1rem; /* row height */
+  }
+  .form-row.mobile-card .input-container input {
+    border: 0 !important;
+    box-shadow: none !important;
+    background: transparent !important;
+    padding: 0;
+    height: auto;
+  }
+
+  /* Icons spacing */
+  .form-row.mobile-card .input-with-icon .input-icon { left: 18px; }
+  .form-row.mobile-card .input-with-icon > input { padding-left: 38px !important; }
+
+  /* Single thin divider between rows */
+  .form-row.mobile-card .form-group + .form-group .input-container {
+    border-top: 1px solid #e5e7eb !important;
+  }
+
+  /* Swap circle on right center overlapping divider */
+  .form-row.mobile-card .swap-center {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10; /* above inputs */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: auto;
+  }
+  .form-row.mobile-card .swap-button {
+    width: 44px; height: 44px; border-radius: 9999px;
+    background: #fff;
+    border: 2px solid #dbeafe; /* soft blue ring */
+    box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+    display: inline-flex; align-items: center; justify-content: center;
+  }
+  .form-row.mobile-card .swap-button .swap-icon { width: 18px; height: 18px; transform: none; }
+
+  /* Thinner From/To rows */
+  .form-row.mobile-card .input-container {
+    padding: 0.6rem 0.9rem !important; /* was 0.9rem 1rem */
+  }
+  .form-row.mobile-card .input-container input[type="text"] {
+    font-size: 15px;            /* compact but readable */
+    line-height: 1.2;           /* align with icon vertically */
+    padding: 0 !important;      /* rely on container padding */
+    height: auto;               /* no forced height */
+  }
+  /* Placeholder style to match content size and alignment */
+  .form-row.mobile-card .input-container input::placeholder {
+    font-size: 15px;
+    line-height: 1.2;
+    color: #9ca3af;             /* subdued */
+  }
+  /* Icon and text horizontal alignment */
+  .form-row.mobile-card .input-with-icon .input-icon { left: 16px; top: 50%; transform: translateY(-50%); }
+  .form-row.mobile-card .input-with-icon > input { padding-left: 36px !important; }
+
+  /* Very thin divider between From and To */
+  .form-row.mobile-card .form-group + .form-group .input-container {
+    border-top: 1px solid rgba(0,0,0,0.08) !important; /* lighter, thinner look */
+  }
+
+  /* Keep swap pinned at right center above the thin divider */
+  .form-row.mobile-card .swap-center { right: 14px !important; top: 50% !important; transform: translateY(-50%); z-index: 10; }
+  .form-row.mobile-card .swap-button { width: 42px; height: 42px; }
+}
+
+@media (max-width: 768px) {
+  /* Slimmer rows */
+  .form-row.mobile-card .form-group .input-container {
+    padding: 0.5rem 0.9rem !important; /* thinner */
+  }
+  
+  /* Placeholders aligned horizontally with icons */
+  .form-row.mobile-card .input-with-icon .input-icon {
+    left: 16px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important; /* icon perfectly centered */
+  }
+  .form-row.mobile-card .input-with-icon > input {
+    padding-left: 38px !important; /* space for icon */
+    line-height: 1.25 !important;  /* tighten baseline */
+    height: auto !important;
+    position: relative;
+    top: -1px; /* nudge up so text/placeholder sits beside icon */
+  }
+  .form-row.mobile-card .input-with-icon > input::placeholder {
+    font-size: 15px !important;
+    line-height: 1.25 !important;
+    color: #9ca3af !important;
+  }
+
+  /* Very thin visible divider between rows */
+  .form-row.mobile-card .form-group + .form-group .input-container {
+    border-top: 1px solid rgba(0,0,0,0.18) !important; /* slightly darker so it shows */
+    margin-top: -1px; /* avoid double pixel from anti-aliasing */
+  }
+
+  /* Keep swap pinned and not interfering */
+  .form-row.mobile-card .swap-center { right: 14px !important; top: 50% !important; transform: translateY(-50%); z-index: 10; }
+  .form-row.mobile-card .swap-button { width: 42px; height: 42px; }
+}
+
+@media (max-width: 768px) {
+  /* Thinner rows + vertical centering with icons */
+  .form-row.mobile-card .form-group .input-container {
+    padding: 0.4rem 0.9rem !important; /* thinner */
+    display: flex !important;
+    align-items: center !important;     /* centers input text vertically */
+  }
+  
+  /* Icon position and input padding to sit BESIDE the icon */
+  .form-row.mobile-card .input-with-icon .input-icon {
+    left: 14px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+  }
+  .form-row.mobile-card .input-with-icon > input {
+    padding-left: 40px !important;      /* enough space so text starts beside icon */
+    height: 28px !important;            /* compact input height */
+    line-height: 28px !important;       /* baseline centers the text */
+    margin: 0 !important;
+  }
+  .form-row.mobile-card .input-with-icon > input::placeholder {
+    font-size: 15px !important;
+    line-height: 28px !important;
+  }
+
+  /* Force a very thin, visible divider between rows */
+  .form-row.mobile-card .form-group + .form-group .input-container {
+    border-top: 1px solid #d1d5db !important; /* ensure visible */
+  }
+
+  /* Swap stays pinned */
+  .form-row.mobile-card .swap-center { right: 14px !important; top: 50% !important; transform: translateY(-50%); z-index: 10; }
+  .form-row.mobile-card .swap-button { width: 42px !important; height: 42px !important; }
+}
+
+@media (max-width: 768px) {
+  /* Ensure no margins inflate row height */
+  .form-row.mobile-card .form-group { margin: 0 !important; }
+
+  /* Thinner rows with strong specificity */
+  .form-row.mobile-card .form-group .input-container {
+    padding: 8px 14px !important; /* thinner */
+    display: flex !important;
+    align-items: center !important;
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+  }
+
+  /* Icon absolute; input text starts exactly beside it */
+  .form-row.mobile-card .form-group .input-container.input-with-icon { position: relative !important; }
+  .form-row.mobile-card .form-group .input-container.input-with-icon .input-icon {
+    position: absolute !important;
+    left: 14px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+  }
+  .form-row.mobile-card .form-group .input-container.input-with-icon > input {
+    padding-left: 46px !important;   /* room for 18px icon + spacing */
+    height: 24px !important;         /* compact height */
+    line-height: 24px !important;    /* baseline centers copy */
+    margin: 0 !important;
+    border: 0 !important;
+    background: transparent !important;
+  }
+  .form-row.mobile-card .form-group .input-container.input-with-icon > input::placeholder {
+    font-size: 15px !important;
+    line-height: 24px !important;
+    color: #9ca3af !important;
+  }
+
+  /* Enforce a thin, visible separator between From/To */
+  .form-row.mobile-card .form-group + .form-group .input-container {
+    border-top: 1px solid #d1d5db !important; /* clearly visible hairline */
+  }
+
+  /* Swap stays pinned and clear of text */
+  .form-row.mobile-card .swap-center { right: 14px !important; top: 50% !important; transform: translateY(-50%); z-index: 10; }
+  .form-row.mobile-card .swap-button { width: 42px !important; height: 42px !important; }
+}
+
+@media (max-width: 768px) {
+  /* Final mobile tightening for From/To */
+  .form-row.mobile-card .form-group { margin: 0 !important; }
+  .form-row.mobile-card .form-group .input-container {
+    padding: 6px 12px !important;     /* thinner rows */
+    display: flex !important;
+    align-items: center !important;    /* vertical centering */
+  }
+  .form-row.mobile-card .form-group .input-container.input-with-icon { position: relative !important; }
+  .form-row.mobile-card .form-group .input-container.input-with-icon .input-icon {
+    left: 14px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+  }
+  .form-row.mobile-card .form-group .input-container.input-with-icon > input {
+    padding-left: 34px !important;     /* sits right beside 18px icon */
+    height: 22px !important;
+    line-height: 22px !important;      /* baseline exactly centered */
+    margin: 0 !important;
+  }
+  .form-row.mobile-card .form-group .input-container.input-with-icon > input::placeholder {
+    font-size: 15px !important;
+    line-height: 22px !important;
+  }
+  /* Clear, thin separator between From and To */
+  .form-row.mobile-card .form-group + .form-group .input-container {
+    border-top: 1px solid #e5e7eb !important; /* visible hairline */
+  }
+}
+
+/* === Final mobile From/To tweaks (high-specificity overrides) === */
+@media (max-width: 768px) {
+  /* Remove any margins that add extra height */
+  .form-row.mobile-card .form-group { margin: 0 !important; }
+  .form-row.mobile-card .form-group + .form-group { margin-top: 0 !important; }
+
+  /* Thinner rows + vertical centering */
+  .form-row.mobile-card .form-group .input-container {
+    padding: 6px 12px !important;          /* thinner rows */
+    display: flex !important;
+    align-items: center !important;         /* vertically center input text */
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+  }
+
+  /* Icon exact position */
+  .form-row.mobile-card .form-group .input-container.input-with-icon { position: relative !important; }
+  .form-row.mobile-card .form-group .input-container.input-with-icon .input-icon {
+    position: absolute !important;
+    left: 14px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+  }
+
+  /* Text starts BESIDE the icon (not below) */
+  .form-row.mobile-card .form-group .input-container.input-with-icon > input {
+    padding-left: 40px !important;          /* space for icon + gap */
+    height: 26px !important;
+    line-height: 26px !important;           /* baseline centers text */
+    margin: 0 !important;
+    border: 0 !important;
+    background: transparent !important;
+    transform: translateY(-1px);            /* tiny upward nudge to align with icon */
+  }
+  .form-row.mobile-card .form-group .input-container.input-with-icon > input::placeholder {
+    font-size: 15px !important;
+    line-height: 26px !important;
+    color: #9ca3af !important;
+  }
+
+  /* Clear, thin separator between From & To rows */
+  .form-row.mobile-card .form-group + .form-group .input-container {
+    border-top: 1px solid rgba(0,0,0,0.22) !important; /* ensure visible hairline */
+    background-clip: padding-box !important;           /* crisp line */
+  }
+
+  /* Swap stays pinned */
+  .form-row.mobile-card .swap-center { right: 14px !important; top: 50% !important; transform: translateY(-50%); z-index: 10; }
+  .form-row.mobile-card .swap-button { width: 42px !important; height: 42px !important; }
+}
+
+@media (max-width: 768px) {
+  /* Force divider on the second row even when .swap-center sits between groups */
+  .form-row.mobile-card .form-group:last-of-type .input-container,
+  .form-row.mobile-card .form-group:nth-of-type(2) .input-container {
+    border-top: 1px solid #d1d5db !important; /* visible thin separator */
+  }
+
+  /* Ensure swap button doesn't obscure the divider visually */
+  .form-row.mobile-card .swap-button { background: #fff; }
+}

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import SearchForm from '../components/SearchForm';
+import ResponsiveSearchForm from '../components/ResponsiveSearchForm';
 import './Home.css';
 
 const Home = () => {
@@ -99,7 +99,7 @@ const Home = () => {
     <div className="home">
       <div className="hero-section">
         <div className="hero-content">
-          <SearchForm onSearch={handleSearch} />
+          <ResponsiveSearchForm onSearch={handleSearch} />
         </div>
       </div>
 
