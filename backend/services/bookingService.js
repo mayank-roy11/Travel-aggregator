@@ -98,9 +98,119 @@ class BookingService {
     createRedirectPage(bookingData) {
         const { url, method, params, click_id, gate_id } = bookingData;
         
+        // Force INR currency in GET URL or POST params
+        let finalUrl = url;
+        let finalParams = params;
+        try {
+            const u = new URL(url);
+            const q = u.searchParams;
+            // Common currency query keys seen across agencies
+            const currencyQueryKeys = ['currency', 'cur', 'user_currency', 'userCurrency'];
+            let changed = false;
+            for (const k of currencyQueryKeys) {
+                if (q.has(k)) {
+                    q.set(k, 'INR');
+                    changed = true;
+                }
+            }
+            if (!changed) {
+                q.append('currency', 'INR');
+            }
+
+            // IndiGo specific handling: ensure country/locale imply INR on their site
+            const host = u.hostname.toLowerCase();
+            const isIndiGo = /(^|\.)goindigo\.[a-z]+$|(^|\.)indigo\.[a-z]+$/i.test(host) || /goindigo|indigo/.test(host);
+            if (isIndiGo) {
+                // Helpful defaults for IndiGo website
+                // Known useful params: country, pos, locale/lang, market, localeCountry
+                if (!q.has('country')) q.append('country', 'IN');
+                if (!q.has('pos')) q.append('pos', 'IN');
+                if (!q.has('market')) q.append('market', 'IN');
+                if (!q.has('localeCountry')) q.append('localeCountry', 'IN');
+                if (q.has('locale')) {
+                    q.set('locale', 'en-IN');
+                } else if (q.has('lang')) {
+                    q.set('lang', 'en-IN');
+                } else {
+                    q.append('locale', 'en-IN');
+                }
+
+                // Redundant currency aliases often used by booking sites
+                const extraCurrencyKeys = [
+                    'selectedCurrency',
+                    'preferredCurrency',
+                    'prefCurrency',
+                    'currencyCode',
+                    'curr',
+                    'pc'
+                ];
+                for (const key of extraCurrencyKeys) {
+                    if (q.has(key)) {
+                        q.set(key, 'INR');
+                    } else {
+                        q.append(key, 'INR');
+                    }
+                }
+            }
+            finalUrl = u.toString();
+        } catch (e) {
+            // If URL parsing fails, keep original url
+        }
+
+        if (method === 'POST') {
+            // Normalize currency fields for POST-based agencies
+            finalParams = { ...(params || {}) };
+            const currencyParamKeys = [
+                'UserCurrency',
+                'DisplayedPriceCurrency',
+                'currency',
+                'user_currency',
+                'cur'
+            ];
+            currencyParamKeys.forEach((k) => {
+                finalParams[k] = 'INR';
+            });
+
+            // IndiGo specific handling for POST params
+            try {
+                const u = new URL(finalUrl);
+                const host = u.hostname.toLowerCase();
+                const isIndiGo = /(^|\.)goindigo\.[a-z]+$|(^|\.)indigo\.[a-z]+$/i.test(host) || /goindigo|indigo/.test(host);
+                if (isIndiGo) {
+                    if (!finalParams.country) finalParams.country = 'IN';
+                    if (!finalParams.pos) finalParams.pos = 'IN';
+                    if (!finalParams.market) finalParams.market = 'IN';
+                    if (!finalParams.localeCountry) finalParams.localeCountry = 'IN';
+                    // Prefer locale over lang
+                    if (finalParams.locale) {
+                        finalParams.locale = 'en-IN';
+                    } else if (finalParams.lang) {
+                        finalParams.lang = 'en-IN';
+                    } else {
+                        finalParams.locale = 'en-IN';
+                    }
+
+                    // Redundant currency aliases as POST fields
+                    const extraCurrencyKeys = [
+                        'selectedCurrency',
+                        'preferredCurrency',
+                        'prefCurrency',
+                        'currencyCode',
+                        'curr',
+                        'pc'
+                    ];
+                    extraCurrencyKeys.forEach((k) => {
+                        finalParams[k] = 'INR';
+                    });
+                }
+            } catch (_) {
+                // ignore
+            }
+        }
+        
         let formFields = '';
-        if (method === 'POST' && params) {
-            formFields = Object.entries(params)
+        if (method === 'POST' && finalParams) {
+            formFields = Object.entries(finalParams)
                 .map(([key, value]) => `<input type="hidden" name="${key}" value="${value}">`)
                 .join('\n');
         }
@@ -113,13 +223,13 @@ class BookingService {
         <script>
             var redirect = function(timeout){
                 setTimeout(function(){
-                    window.location.href = '${url}';
+                    window.location.href = '${finalUrl}';
                 }, timeout);
             }
         </script>`;
     } else {
         redirectScript = `
-        <form id="redirect_params_form" method="POST" action='${url}'>
+        <form id="redirect_params_form" method="POST" action='${finalUrl}'>
             ${formFields}
         </form>
         <script>

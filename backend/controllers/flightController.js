@@ -151,9 +151,107 @@ exports.generateBookingLink = async (req, res) => {
             });
         }
 
+        // Normalize currency to INR in returned URL/params so clients redirect with INR
+        const data = response.data;
+        let finalUrl = data.url;
+        let finalParams = data.params;
+
+        try {
+            const u = new URL(finalUrl);
+            const q = u.searchParams;
+            const currencyQueryKeys = ['currency', 'cur', 'user_currency', 'userCurrency'];
+            let changed = false;
+            for (const k of currencyQueryKeys) {
+                if (q.has(k)) {
+                    q.set(k, 'INR');
+                    changed = true;
+                }
+            }
+            if (!changed) {
+                q.append('currency', 'INR');
+            }
+
+            // IndiGo specific handling: ensure INR context via country/locale
+            const host = u.hostname.toLowerCase();
+            const isIndiGo = /(^|\.)goindigo\.[a-z]+$|(^|\.)indigo\.[a-z]+$/i.test(host) || /goindigo|indigo/.test(host);
+            if (isIndiGo) {
+                if (!q.has('country')) q.append('country', 'IN');
+                if (!q.has('pos')) q.append('pos', 'IN');
+                if (!q.has('market')) q.append('market', 'IN');
+                if (!q.has('localeCountry')) q.append('localeCountry', 'IN');
+                if (q.has('locale')) {
+                    q.set('locale', 'en-IN');
+                } else if (q.has('lang')) {
+                    q.set('lang', 'en-IN');
+                } else {
+                    q.append('locale', 'en-IN');
+                }
+
+                const extraCurrencyKeys = [
+                  'selectedCurrency',
+                  'preferredCurrency',
+                  'prefCurrency',
+                  'currencyCode',
+                  'curr',
+                  'pc'
+                ];
+                for (const key of extraCurrencyKeys) {
+                  if (q.has(key)) q.set(key, 'INR'); else q.append(key, 'INR');
+                }
+            }
+            finalUrl = u.toString();
+        } catch (e) {
+            // keep original URL on parse failure
+        }
+
+        if (data.method === 'POST') {
+            finalParams = { ...(data.params || {}) };
+            ['UserCurrency', 'DisplayedPriceCurrency', 'currency', 'user_currency', 'cur'].forEach((k) => {
+                finalParams[k] = 'INR';
+            });
+
+            // IndiGo specific handling for POST-based redirects
+            try {
+                const u = new URL(finalUrl);
+                const host = u.hostname.toLowerCase();
+                const isIndiGo = /(^|\.)goindigo\.[a-z]+$|(^|\.)indigo\.[a-z]+$/i.test(host) || /goindigo|indigo/.test(host);
+                if (isIndiGo) {
+                    if (!finalParams.country) finalParams.country = 'IN';
+                    if (!finalParams.pos) finalParams.pos = 'IN';
+                    if (!finalParams.market) finalParams.market = 'IN';
+                    if (!finalParams.localeCountry) finalParams.localeCountry = 'IN';
+                    if (finalParams.locale) {
+                        finalParams.locale = 'en-IN';
+                    } else if (finalParams.lang) {
+                        finalParams.lang = 'en-IN';
+                    } else {
+                        finalParams.locale = 'en-IN';
+                    }
+
+                    const extraCurrencyKeys = [
+                      'selectedCurrency',
+                      'preferredCurrency',
+                      'prefCurrency',
+                      'currencyCode',
+                      'curr',
+                      'pc'
+                    ];
+                    extraCurrencyKeys.forEach((k) => {
+                      finalParams[k] = 'INR';
+                    });
+                }
+            } catch (_) {
+                // ignore
+            }
+        }
+
         res.json({
             success: true,
-            bookingData: response.data
+            bookingData: {
+                ...data,
+                url: finalUrl,
+                params: finalParams
+            }
         });
 
         
