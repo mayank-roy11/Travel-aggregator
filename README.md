@@ -125,4 +125,4 @@ The authentication service is decoupled from the main backend. The React fronten
 
 For a detailed guide on setting up Google OAuth and the database, see [python-auth-service/setup_guide.md](python-auth-service/setup_guide.md).
 
-MIT
+All Rights Reserved.
